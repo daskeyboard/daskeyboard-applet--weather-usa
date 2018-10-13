@@ -1,0 +1,25 @@
+{
+  "name": "q-applet-weather",
+  "version": "1.0.0",
+  "description": "Das Keyboard Alerts for Weather",
+  "main": "index.js",
+  "author": "Cory Kim",
+  "license": "MIT",
+  "dependencies": {
+    "daskeyboard-applet": "^2.2.1"
+  },
+  "qConfig": {
+    "geometry": {
+      "width": 1,
+      "height": 1
+    },
+    "applet": {
+      "defaults": {}
+    },
+    "requirements": {
+      "applet": {
+        "zone": "string"
+      }
+    }
+  }
+}
