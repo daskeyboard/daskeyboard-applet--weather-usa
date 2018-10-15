@@ -2,6 +2,9 @@ const q = require('daskeyboard-applet');
 const request = require('request-promise');
 
 const apiUrl = "https://api.weather.gov/";
+const serviceHeaders = {
+  "User-Agent": "Das Keyboard q-applet-weather"
+}
 
 class WeatherAlerts extends q.DesktopApp {
   constructor() {
