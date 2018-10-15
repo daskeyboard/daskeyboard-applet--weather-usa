@@ -14,7 +14,7 @@ class WeatherAlerts extends q.DesktopApp {
     for (let feature of zones.features) {
       if (feature.properties.type === 'public') {
         const id = feature.properties.id;
-        const label = feature.properties.name;
+        let label = feature.properties.name;
         if (feature.properties.state) {
           label = label + ', ' + feature.properties.state;
         }
