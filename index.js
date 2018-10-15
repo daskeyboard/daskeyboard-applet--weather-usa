@@ -19,16 +19,18 @@ class WeatherAlerts extends q.DesktopApp {
       const type = message.type;
       switch (type) {
         case 'SELECTIONS': {
+          console.log("Handling " + type);
           this.selections(message.id).then(selections => {
             const response = {
               type: 'SELECTIONS',
               selections: selections
             }
             process.send(JSON.stringify(response));
-          })
+          });
+          break;
         }
         default: {
-          console.error("Don't know how to handle JSON message of type: " + type);
+          console.error("Don't know how to handle JSON message of type: '" + type + "'");
         }
       }
     } else {
