@@ -11,6 +11,7 @@ var zones = null;
 class WeatherAlerts extends q.DesktopApp {
   async selections(fieldName) {
     if (zones) {
+      console.log("Sending preloaded zones");
       return processZones(zones);
     } else {
       console.log("Retrieving zones...");
@@ -19,7 +20,8 @@ class WeatherAlerts extends q.DesktopApp {
         url: apiUrl + '/zones',
         headers: serviceHeaders,
         json: true
-      }).then(zones => {
+      }).then(body => {
+        zones = body;
         return this.processZones(zones);
       }).catch((error) => {
         console.error("Caught error:", error);
