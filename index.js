@@ -49,7 +49,10 @@ class WeatherAlerts extends q.DesktopApp {
   }
 
   async selections(id) {
-    
+    return new Map([
+      ['1', 'Foo'],
+      ['2', 'Bar']
+    ])
   }
 
 
