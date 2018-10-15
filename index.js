@@ -61,6 +61,9 @@ class WeatherAlerts extends q.DesktopApp {
         json: true
       }).then((body) => {
         return body;
+      }).catch((error) => {
+        console.log("Got error getting zones:", error);
+        return [];
       })
 
     // request.get(apiUrl + '/zones').then(response)
