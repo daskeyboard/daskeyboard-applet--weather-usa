@@ -51,6 +51,27 @@ class WeatherAlerts extends q.DesktopApp {
 
   async run() {
     console.log("Running.");
+    const zone = this.config.zoneId;
+    if (zone) {
+      return request.get({
+        url: apiUrl + '/alerts/active/zone/' + zone,
+        headers: serviceHeaders,
+        json: true
+      }).then(body => {
+        const features = body.features;
+        if (features && features.length > 0) {
+          console.log("Got alert for zone: " + zone);
+          return q.Signal([[new q.Point('#FF0000')]]);
+        } else {
+          console.log("No alerts for zone: " + zone);
+        }
+        return this.processZones(zones);
+      }).catch((error) => {
+        console.error("Caught error:", error);
+      })
+    } else {
+      console.log("No zoneId configured.");
+    }
     // return request.post({
     //   url: apiUrl,
     //   headers: {
