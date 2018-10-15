@@ -52,10 +52,10 @@ class WeatherAlerts extends q.DesktopApp {
 
   async selections(id) {
     console.log("Generating selections...");
-    let selections = new Map([
+    let selections = [
       ['1', 'Foo'],
       ['2', 'Bar']
-    ]);
+    ];
     console.log("Returning " + JSON.stringify(selections));
     return selections;
   }
