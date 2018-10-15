@@ -10,8 +10,13 @@ class WeatherAlerts extends q.DesktopApp {
     console.log("Construction...");
     process.on('message', (m) => {
       console.log("Got message ", m);
+
+      process.send("Roger, roger!");
     })
   }
+
+
+
   async run() {
     // return request.post({
     //   url: apiUrl,
