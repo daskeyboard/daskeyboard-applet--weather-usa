@@ -4,6 +4,12 @@ const request = require('request-promise');
 const apiUrl = "https://api.weather.gov/";
 
 class WeatherAlerts extends q.DesktopApp {
+  constructor() {
+    super();
+    process.on('message', (m) => {
+      console.log("Got message ", m);
+    })
+  }
   async run() {
     // return request.post({
     //   url: apiUrl,
