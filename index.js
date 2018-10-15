@@ -24,7 +24,7 @@ class WeatherAlerts extends q.DesktopApp {
         case 'SELECTIONS': {
           console.log("CHILD Handling " + type);
           this.selections(message.id).then(selections => {
-            console.log("CHILD has selections: " + JSON.stringify(selections));
+            //console.log("CHILD has selections: " + JSON.stringify(selections));
             const response = {
               type: 'SELECTIONS',
               selections: selections
