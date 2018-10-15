@@ -56,8 +56,11 @@ class WeatherAlerts extends q.DesktopApp {
   async selections(id) {
     console.log("Generating selections...");
     const zones = require('./zones.json');
-    console.log(zones);
-    return zones;
+    const options = [];
+    for (let feature of zones.features) {
+      options.push([feature.properties.id, feature.properties.name]);
+    }
+    return options;
 
     // request.get(apiUrl + '/zones').then(response)
     // let selections = [
