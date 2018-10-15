@@ -18,8 +18,8 @@ class WeatherAlerts extends q.DesktopApp {
         if (feature.properties.state) {
           label = label + ', ' + feature.properties.state;
         }
+        options.push([id, label]);
       }
-      options.push([id, label]);
     }
     return options;
   }
