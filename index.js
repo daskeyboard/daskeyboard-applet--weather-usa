@@ -12,7 +12,7 @@ class WeatherAlerts extends q.DesktopApp {
   async selections(fieldName) {
     if (zones) {
       console.log("Sending preloaded zones");
-      return processZones(zones);
+      return this.processZones(zones);
     } else {
       console.log("Retrieving zones...");
       //const zones = require('./zones.json');
