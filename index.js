@@ -9,19 +9,28 @@ const serviceHeaders = {
 class WeatherAlerts extends q.DesktopApp {
   async selections(fieldName) {
     console.log("Generating selections...");
-    const zones = require('./zones.json');
-    const options = [];
-    for (let feature of zones.features) {
-      if (feature.properties.type === 'public') {
-        const id = feature.properties.id;
-        let label = feature.properties.name;
-        if (feature.properties.state) {
-          label = label + ', ' + feature.properties.state;
+    //const zones = require('./zones.json');
+    return request.get({
+      url: apiUrl + '/zones',
+      headers: serviceHeaders,
+      json: true
+    }).then(zones => {
+      //console.log("Got body: ", body);
+      const options = [];
+      for (let feature of zones.features) {
+        if (feature.properties.type === 'public') {
+          const id = feature.properties.id;
+          let label = feature.properties.name;
+          if (feature.properties.state) {
+            label = label + ', ' + feature.properties.state;
+          }
+          options.push([id, label]);
         }
-        options.push([id, label]);
       }
-    }
-    return options;
+      return options;
+    }).catch((error) => {
+      console.error("Caught error:", error);
+    })
   }
 
 
@@ -42,13 +51,3 @@ class WeatherAlerts extends q.DesktopApp {
 }
 
 const applet = new WeatherAlerts();
-
-request.get({
-  url: apiUrl,
-  headers: serviceHeaders,
-  json: true
-}).then(body => {
-  console.log("Got body: ", body);
-}).catch((error) => {
-  console.error("Caught error:", error);
-})
