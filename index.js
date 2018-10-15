@@ -23,7 +23,7 @@ class WeatherAlerts extends q.DesktopApp {
       switch (type) {
         case 'SELECTIONS': {
           console.log("CHILD Handling " + type);
-          this.selections(message.id).then(selections => {
+          this.selections(message.fieldName).then(selections => {
             //console.log("CHILD has selections: " + JSON.stringify(selections));
             const response = {
               type: 'SELECTIONS',
@@ -53,7 +53,7 @@ class WeatherAlerts extends q.DesktopApp {
     }
   }
 
-  async selections(id) {
+  async selections(fieldName) {
     console.log("Generating selections...");
     const zones = require('./zones.json');
     const options = [];
