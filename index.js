@@ -12,7 +12,14 @@ class WeatherAlerts extends q.DesktopApp {
     const zones = require('./zones.json');
     const options = [];
     for (let feature of zones.features) {
-      options.push([feature.properties.id, feature.properties.name]);
+      if (feature.properties.type === 'public') {
+        const id = feature.properties.id;
+        const label = feature.properties.name;
+        if (feature.properties.state) {
+          label = label + ', ' + feature.properties.state;
+        }
+      }
+      options.push([id, label]);
     }
     return options;
   }
