@@ -29,7 +29,7 @@ class WeatherAlerts extends q.DesktopApp {
               type: 'SELECTIONS',
               selections: selections
             }
-            console.log("CHILD sending: " + JSON.stringify(response));
+            //console.log("CHILD sending: " + JSON.stringify(response));
             process.send(JSON.stringify(response));
           });
           break;
