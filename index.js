@@ -61,16 +61,18 @@ class WeatherAlerts extends q.DesktopApp {
         const features = body.features;
         if (features && features.length > 0) {
           console.log("Got alert for zone: " + zone);
-          return q.Signal([[new q.Point('#FF0000')]]);
+          return new q.Signal([[new q.Point('#FF0000')]]);
         } else {
           console.log("No alerts for zone: " + zone);
         }
         return this.processZones(zones);
       }).catch((error) => {
         console.error("Caught error:", error);
+        return null;
       })
     } else {
       console.log("No zoneId configured.");
+      return null;
     }
     // return request.post({
     //   url: apiUrl,
