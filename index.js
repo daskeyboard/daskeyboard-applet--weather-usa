@@ -8,11 +8,23 @@ class WeatherAlerts extends q.DesktopApp {
     super();
 
     console.log("Construction...");
-    process.on('message', (m) => {
-      console.log("Got message ", m);
+    process.on('message', (m) => this.handleMessage(m));
+  }
 
-      process.send("Roger, roger!");
-    })
+  async handleMessage(m) {
+    if (m === 'START') {
+      this.start();
+    } else if (m.startsWith('{')) {
+      let json = JSON.parse(m);
+      console.log("Received message: ", json);
+      let response = {
+        text: "Roger, roger!"
+      };
+      process.send(JSON.stringify(response));
+
+    } else {
+      console.error("Don't know what to do with message: '" + m + "'");
+    }
   }
 
 
