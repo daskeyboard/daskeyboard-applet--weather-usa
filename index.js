@@ -12,21 +12,43 @@ class WeatherAlerts extends q.DesktopApp {
   }
 
   async handleMessage(m) {
-    if (m === 'START') {
-      this.start();
-    } else if (m.startsWith('{')) {
-      let json = JSON.parse(m);
-      console.log("Received message: ", json);
-      let response = {
-        text: "Roger, roger!"
-      };
-      process.send(JSON.stringify(response));
+    if (m.startsWith('{')) {
+      const message = JSON.parse(m);
+      console.log("Received JSON message: ", message);
 
+      const type = message.type;
+      switch (type) {
+        case 'SELECTIONS': {
+          this.selections(message.id).then(selections => {
+            const response = {
+              type: 'SELECTIONS',
+              selections: selections
+            }
+            process.send(JSON.stringify(response));
+          })
+        }
+        default: {
+          console.error("Don't know how to handle JSON message of type: " + type);
+        }
+      }
     } else {
-      console.error("Don't know what to do with message: '" + m + "'");
+      switch (m) {
+        case 'START':
+          {
+            console.log("Got START");
+            break;
+          }
+        default:
+          {
+            console.error("Don't know what to do with message: '" + m + "'");
+          }
+      }
     }
   }
 
+  async selections(id) {
+    
+  }
 
 
   async run() {
@@ -41,7 +63,7 @@ class WeatherAlerts extends q.DesktopApp {
     // }).then(body => {
     //   console.log("Got body: ", body);
     // })
-  }  
+  }
 }
 
 const applet = new WeatherAlerts();
