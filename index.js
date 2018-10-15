@@ -64,8 +64,8 @@ class WeatherAlerts extends q.DesktopApp {
           return new q.Signal([[new q.Point('#FF0000')]]);
         } else {
           console.log("No alerts for zone: " + zone);
+          return null;
         }
-        return this.processZones(zones);
       }).catch((error) => {
         console.error("Caught error:", error);
         return null;
@@ -74,17 +74,6 @@ class WeatherAlerts extends q.DesktopApp {
       console.log("No zoneId configured.");
       return null;
     }
-    // return request.post({
-    //   url: apiUrl,
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: {
-    //   },
-    //   json: true
-    // }).then(body => {
-    //   console.log("Got body: ", body);
-    // })
   }
 }
 
