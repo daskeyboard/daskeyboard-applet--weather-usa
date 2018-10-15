@@ -14,17 +14,19 @@ class WeatherAlerts extends q.DesktopApp {
   async handleMessage(m) {
     if (m.startsWith('{')) {
       const message = JSON.parse(m);
-      console.log("Received JSON message: ", message);
+      console.log("CHILD Received JSON message: ", message);
 
       const type = message.type;
       switch (type) {
         case 'SELECTIONS': {
-          console.log("Handling " + type);
+          console.log("CHILD Handling " + type);
           this.selections(message.id).then(selections => {
+            console.log("CHILD has selections: " + JSON.stringify(selections));
             const response = {
               type: 'SELECTIONS',
               selections: selections
             }
+            console.log("CHILD sending: " + JSON.stringify(response));
             process.send(JSON.stringify(response));
           });
           break;
