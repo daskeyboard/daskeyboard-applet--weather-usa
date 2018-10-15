@@ -55,11 +55,7 @@ class WeatherAlerts extends q.DesktopApp {
 
   async selections(id) {
     console.log("Generating selections...");
-    return request.get({
-        url: "https://api.weather.gov/zones",
-        headers: this.serviceHeaders,
-        json: true
-      }).then((body) => {
+    return request.get("https://api.weather.gov/zones").then((body) => {
         return body;
       }).catch((error) => {
         console.log("Got error getting zones:", error);
