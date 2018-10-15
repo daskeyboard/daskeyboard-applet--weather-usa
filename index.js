@@ -1,7 +1,7 @@
 const q = require('daskeyboard-applet');
 const request = require('request-promise');
 
-const apiUrl = "https://api.weather.gov/";
+const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
   "User-Agent": "Das Keyboard q-applet-weather"
 }
@@ -43,7 +43,11 @@ class WeatherAlerts extends q.DesktopApp {
 
 const applet = new WeatherAlerts();
 
-request.get(apiUrl + '/zones').then(body => {
+request.get({
+  url: apiUrl,
+  headers: serviceHeaders,
+  json: true
+}).then(body => {
   console.log("Got body: ", body);
 }).catch((error) => {
   console.error("Caught error:", error);
