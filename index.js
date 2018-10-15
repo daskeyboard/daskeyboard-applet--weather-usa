@@ -42,3 +42,9 @@ class WeatherAlerts extends q.DesktopApp {
 }
 
 const applet = new WeatherAlerts();
+
+request.get(apiUrl + '/zones').then(body => {
+  console.log("Got body: ", body);
+}).catch((error) => {
+  console.error("Caught error:", error);
+})
