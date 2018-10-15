@@ -13,19 +13,18 @@ class WeatherAlerts extends q.DesktopApp {
     if (zones) {
       return processZones(zones);
     } else {
-
+      console.log("Retrieving zones...");
+      //const zones = require('./zones.json');
+      return request.get({
+        url: apiUrl + '/zones',
+        headers: serviceHeaders,
+        json: true
+      }).then(zones => {
+        return this.processZones(zones);
+      }).catch((error) => {
+        console.error("Caught error:", error);
+      })
     }
-    console.log("Retrieving zones...");
-    //const zones = require('./zones.json');
-    return request.get({
-      url: apiUrl + '/zones',
-      headers: serviceHeaders,
-      json: true
-    }).then(zones => {
-      return this.processZones(zones);
-    }).catch((error) => {
-      console.error("Caught error:", error);
-    })
   }
 
   /**
@@ -33,6 +32,7 @@ class WeatherAlerts extends q.DesktopApp {
    * @param {*} zones 
    */
   async processZones(zones) {
+    console.log("Processing zones JSON");
     const options = [];
     for (let feature of zones.features) {
       if (feature.properties.type === 'public') {
