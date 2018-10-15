@@ -6,6 +6,8 @@ const apiUrl = "https://api.weather.gov/";
 class WeatherAlerts extends q.DesktopApp {
   constructor() {
     super();
+
+    console.log("Construction...");
     process.on('message', (m) => {
       console.log("Got message ", m);
     })
