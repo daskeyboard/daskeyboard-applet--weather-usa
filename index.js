@@ -61,14 +61,6 @@ class WeatherAlerts extends q.DesktopApp {
       options.push([feature.properties.id, feature.properties.name]);
     }
     return options;
-
-    // request.get(apiUrl + '/zones').then(response)
-    // let selections = [
-    //   ['1', 'Foo'],
-    //   ['2', 'Bar']
-    // ];
-    // console.log("Returning " + JSON.stringify(selections));
-    // return selections;
   }
 
 
