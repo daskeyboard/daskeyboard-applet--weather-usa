@@ -105,7 +105,7 @@ describe('WeatherForecast', function () {
   };
   it('can run', function () {
     app.run().then((signal) => {
-      console.log(signal);
+      console.log(JSON.stringify(signal));
       assert.ok(signal);
     });
   })
