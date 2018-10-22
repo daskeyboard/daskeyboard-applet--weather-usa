@@ -3,7 +3,8 @@ const request = require('request-promise');
 
 const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
-  "User-Agent": "Das Keyboard q-applet-weather"
+  "User-Agent": "Das Keyboard q-applet-weather",
+  "accept": "application/geo+json"
 }
 
 var zones = null;
@@ -17,7 +18,7 @@ class WeatherAlerts extends q.DesktopApp {
       console.log("Retrieving zones...");
       //const zones = require('./zones.json');
       return request.get({
-        url: apiUrl + '/zones',
+        url: apiUrl + '/zones?type=forecast',
         headers: serviceHeaders,
         json: true
       }).then(body => {
