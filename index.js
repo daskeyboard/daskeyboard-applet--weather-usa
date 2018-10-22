@@ -184,7 +184,7 @@ class WeatherForecast extends q.DesktopApp {
     if (zone) {
       console.log("My zone is: " + zone);
       return getForecast(zone).then(periods => {
-        const width = geometry.width || 4;
+        const width = this.geometry.width || 4;
         console.log("My width is: " + width);
         const points = [];
         if (periods && periods.length > 0) {

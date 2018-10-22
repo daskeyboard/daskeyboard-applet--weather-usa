@@ -9,7 +9,7 @@
   "author": "Cory Kim",
   "license": "MIT",
   "dependencies": {
-    "daskeyboard-applet": "^2.3.6"
+    "daskeyboard-applet": "^2.4.0"
   },
   "qConfig": {
     "geometry": {
