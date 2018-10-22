@@ -1,0 +1,77 @@
+{
+    "@context": {
+        "wx": "https://api.weather.gov/ontology#",
+        "geo": "http://www.opengis.net/ont/geosparql#",
+        "unit": "http://codes.wmo.int/common/unit/",
+        "@vocab": "https://api.weather.gov/ontology#"
+    },
+    "geometry": {},
+    "updated": "2018-10-22T10:12:00-05:00",
+    "periods": [
+        {
+            "number": 1,
+            "name": "Rest Of Today",
+            "detailedForecast": "Mostly cloudy. A 20 percent chance of showers in\nthe afternoon. Highs in the mid 60s. Northeast winds 5 to 10 mph.\n"
+        },
+        {
+            "number": 2,
+            "name": "Tonight",
+            "detailedForecast": "Cloudy. A chance of showers in the evening, then\nshowers after midnight. Lows in the lower 50s. North winds 5 to\n10 mph. Chance of rain 50 percent in the evening increasing to\n80 percent after midnight. \n"
+        },
+        {
+            "number": 3,
+            "name": "Tuesday",
+            "detailedForecast": "Cloudy. Showers likely in the morning, then a chance\nof showers in the afternoon. Highs in the lower 60s. Northeast\nwinds 5 to 10 mph. Chance of rain 70 percent in the morning\ndecreasing to 50 percent in the afternoon. \n"
+        },
+        {
+            "number": 4,
+            "name": "Tuesday Night",
+            "detailedForecast": "Cloudy with a 50 percent chance of showers. Lows\nin the mid 50s. Northeast winds 5 to 10 mph. \n"
+        },
+        {
+            "number": 5,
+            "name": "Wednesday",
+            "detailedForecast": "Showers likely and isolated thunderstorms. Highs in\nthe mid 60s. Northeast winds 10 to 15 mph. Chance of rain\n60 percent in the morning increasing to 70 percent in the\nafternoon. \n"
+        },
+        {
+            "number": 6,
+            "name": "Wednesday Night",
+            "detailedForecast": "Cloudy. Showers and isolated thunderstorms in\nthe evening, then a chance of showers and isolated thunderstorms\nafter midnight. Lows in the mid 50s. Chance of rain 80 percent in\nthe evening decreasing to 50 percent after midnight. \n"
+        },
+        {
+            "number": 7,
+            "name": "Thursday",
+            "detailedForecast": "Mostly cloudy with a 20 percent chance of showers.\nHighs in the mid 60s. \n"
+        },
+        {
+            "number": 8,
+            "name": "Thursday Night",
+            "detailedForecast": "Partly cloudy. Lows in the lower 50s. \n"
+        },
+        {
+            "number": 9,
+            "name": "Friday",
+            "detailedForecast": "Partly cloudy in the morning then becoming mostly\nsunny. Highs around 70. \n"
+        },
+        {
+            "number": 10,
+            "name": "Friday Night",
+            "detailedForecast": "Mostly clear. Lows in the mid 50s. \n"
+        },
+        {
+            "number": 11,
+            "name": "Saturday",
+            "detailedForecast": "Mostly sunny. Highs in the upper 70s. \n"
+        },
+        {
+            "number": 12,
+            "name": "Saturday Night",
+            "detailedForecast": "Mostly clear. Lows in the mid 50s. \n"
+        },
+        {
+            "number": 13,
+            "name": "Sunday",
+            "detailedForecast": "Sunny. Highs in the mid 70s."
+        }
+    ]
+}
