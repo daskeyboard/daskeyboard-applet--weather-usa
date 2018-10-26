@@ -137,7 +137,7 @@ async function getForecast(zoneId) {
 
 function generateText(periods) {
     const forecasts = [];
-    for (let i = 0; i < periods.length; i += 2) {
+    for (let i = 0; i < periods.length; i += 1) {
       let text = periods[i].detailedForecast.trim();
       text = text.replace(/\n/g, " ");
       text = text.replace(/\s+/g, ' ');
@@ -199,12 +199,14 @@ class WeatherForecast extends q.DesktopApp {
         const width = this.geometry.width || 4;
         console.log("My width is: " + width);
         const points = [];
+        const forecastPeriods = [];
         if (periods && periods.length > 0) {
           console.log("Got forecast: " + zone);
           for (let i = 0; i < width; i += 1) {
             // we skip every other one because we get a daily and nightly
             // forecast for each day
             const period = periods[i * 2];
+            forecastPeriods.push(period);
             const observation = evaluateForecast(period.detailedForecast);
             const forecastValue = observation.prioritize();
             const color = COLORS[forecastValue];
@@ -214,7 +216,7 @@ class WeatherForecast extends q.DesktopApp {
           return new q.Signal({
             points: [points],
             name: "Weather Forecast",
-            message: generateText(periods)
+            message: generateText(forecastPeriods)
           });
         } else {
           console.log("No forecast for zone: " + zone);

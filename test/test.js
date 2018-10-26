@@ -49,43 +49,30 @@ describe('generateText', function () {
         name: 'Rest of Today', detailedForecast: 'Sunny'
       },
       {
-        name: 'Tonight', detailedForecast: '10% chance of rain'
-      },
-      {
         name: 'Tuesday', detailedForecast: '10% chance of rain'
-      },
-      {
-        name: 'Tuesday Night', detailedForecast: '10% chance of rain'
       },
       {
         name: 'Wednesday', detailedForecast: '90% chance of showers'
       },
       {
-        name: 'Wednesday Night', detailedForecast: '90% chance of showers'
-      },
-      {
         name: 'Thursday', detailedForecast: 'Scattered clouds'
-      },
-      {
-        name: 'Thursday Night', detailedForecast: 'Scattered clouds'
       },
     ]
     const text = t.generateText(periods);
     const lines = text.split("\n");
     console.log(lines);
-    assert(4 == lines.length, "Incorrect number of forecast lines");
+    assert(lines.length == periods.length, "Incorrect number of forecast lines");
   });
 
   it('can handle line feeds', function () {
     const periods = [
       { name: 'Rest of Today', detailedForecast: "Lots\nof\nlines"},
-      { name: 'Tonight', detailedForecast: "Even\nmore\n\n\nlines"},
       { name: 'Tuesday', detailedForecast: "Even\nmore\n\n\nlines"}
     ];
     const text = t.generateText(periods);
     console.log('#' + text + '#');
     const lines = text.split("\n");
-    assert(2 == lines.length, "Incorrect number of forecast lines");
+    assert(lines.length == periods.length, "Incorrect number of forecast lines");
   });
 
 });
