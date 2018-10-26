@@ -1,11 +1,9 @@
 const q = require('daskeyboard-applet');
 const request = require('request-promise');
-const moment = require('moment');
 
 const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
-  "User-Agent": "Das Keyboard q-applet-weather",
-  "accept": "application/geo+json"
+  "User-Agent": "Das Keyboard q-applet-weather"
 }
 
 var zones = null;
@@ -27,12 +25,6 @@ const FORECASTS = Object.freeze({
   SNOW: 'SNOW',
   STORM: 'STORM',
   SUNNY: 'SUNNY'
-});
-
-const CALENDAR = Object.freeze({
-  sameDay: '[Today]',
-  nextDay: '[Tomorrow]',
-  nextWeek: 'dddd'
 });
 
 class Observation {
@@ -124,8 +116,10 @@ function evaluateForecast(forecastText) {
 
 
 async function getForecast(zoneId) {
+  const url = apiUrl + `/zones/forecast/${zoneId}/forecast`;
+  console.log("Getting forecast via URL: " + url);
   return request.get({
-    url: apiUrl + `/zones/forecast/${zoneId}/forecast`,
+    url: url,
     headers: serviceHeaders,
     json: true
   }).then(body => {
@@ -143,11 +137,11 @@ async function getForecast(zoneId) {
 
 function generateText(periods) {
     const forecasts = [];
-    for (let i = 0; i < periods.length; i += 1) {
+    for (let i = 0; i < periods.length; i += 2) {
       let text = periods[i].detailedForecast.trim();
       text = text.replace(/\n/g, " ");
       text = text.replace(/\s+/g, ' ');
-      forecasts.push(moment().add(i, 'd').calendar(null, CALENDAR) + ": " + text);
+      forecasts.push(periods[i].name + ": " + text);
     }
 
     return forecasts.join("\n");
