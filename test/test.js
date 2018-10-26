@@ -144,8 +144,8 @@ describe('WeatherForecast', function () {
       assert.ok(selections);
       assert(selections.length > 1, 'Selections did not have an array of values.');
       const option = selections[0];
+      assert.ok(option.key);
       assert.ok(option.value);
-      assert.ok(option.label);
     })
   })
 })
