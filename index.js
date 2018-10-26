@@ -1,5 +1,6 @@
 const q = require('daskeyboard-applet');
 const request = require('request-promise');
+const moment = require('moment');
 
 const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
@@ -28,6 +29,11 @@ const FORECASTS = Object.freeze({
   SUNNY: 'SUNNY'
 });
 
+const CALENDAR = Object.freeze({
+  sameDay: '[Today]',
+  nextDay: '[Tomorrow]',
+  nextWeek: 'dddd'
+});
 
 class Observation {
   constructor({
@@ -135,6 +141,18 @@ async function getForecast(zoneId) {
   })
 }
 
+function generateText(periods) {
+    const forecasts = [];
+    for (let i = 0; i < periods.length; i += 1) {
+      let text = periods[i].detailedForecast.trim();
+      text = text.replace(/\n/g, " ");
+      text = text.replace(/\s+/g, ' ');
+      forecasts.push(moment().add(i, 'd').calendar(null, CALENDAR) + ": " + text);
+    }
+
+    return forecasts.join("\n");
+  }
+
 
 
 class WeatherForecast extends q.DesktopApp {
@@ -198,9 +216,11 @@ class WeatherForecast extends q.DesktopApp {
             const color = COLORS[forecastValue];
             points.push(new q.Point(color));
           }
-          
+
           return new q.Signal({
-            points: [points]
+            points: [points],
+            name: "Weather Forecast",
+            message: generateText(periods)
           });
         } else {
           console.log("No forecast for zone: " + zone);
@@ -224,6 +244,7 @@ module.exports = {
   WeatherForecast: WeatherForecast,
   evaluateForecast: evaluateForecast,
   getForecast: getForecast,
+  generateText: generateText
 }
 
 const applet = new WeatherForecast();

@@ -41,8 +41,41 @@ describe('getForecast', function () {
       assert(periods.length > 10, "Did not get enough periods.");
     });
   });
-
 })
+
+describe('generateText', function () {
+  it('can generate meaningful text', function () {
+    const periods = [{
+        detailedForecast: 'Sunny'
+      },
+      {
+        detailedForecast: '10% chance of rain'
+      },
+      {
+        detailedForecast: '90% chance of showers'
+      },
+      {
+        detailedForecast: 'Scattered clouds'
+      },
+    ]
+    const text = t.generateText(periods);
+    const lines = text.split("\n");
+    console.log(lines);
+    assert(lines.length == periods.length, "Incorrect number of forecast lines");
+  });
+
+  it('can handle line feeds', function () {
+    const periods = [
+      { detailedForecast: "Lots\nof\nlines"},
+      { detailedForecast: "Even\nmore\n\n\nlines"}
+    ];
+    const text = t.generateText(periods);
+    console.log('#' + text + '#');
+    const lines = text.split("\n");
+    assert(lines.length == periods.length, "Incorrect number of forecast lines");
+  });
+
+});
 
 describe('Observation', function () {
   it('can prioritize storm', function () {

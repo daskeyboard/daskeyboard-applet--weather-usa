@@ -113,10 +113,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-daskeyboard-applet@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/daskeyboard-applet/-/daskeyboard-applet-2.3.6.tgz#75c0c29b27716631202116eab07356bdac1947f3"
-  integrity sha512-I6VwjySDY26cvarOFuPP71XHbU/0hIgU9d3Ph9w6nG+aQwP8m40GeEficP5EaxNFbearR8I4gCi494SVZdQ6oQ==
+daskeyboard-applet@~2.4.3:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/daskeyboard-applet/-/daskeyboard-applet-2.4.5.tgz#ad898070b8865ebf28a5d7886d39389f11353bd0"
+  integrity sha512-RljaWa3RtAP4oz1fEX8H9yQt+GzoRHebFBS9JGYx2HqBRvOe6oUkCUNywN73vr82/vuL4pnHER+sC1lSgX/6/g==
   dependencies:
     node-storage "^0.0.7"
     request "^2.88.0"
@@ -357,6 +357,11 @@ mocha@^5.2.0:
     minimatch "3.0.4"
     mkdirp "0.5.1"
     supports-color "5.4.0"
+
+moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+  integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
 
 ms@2.0.0:
   version "2.0.0"
