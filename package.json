@@ -32,12 +32,7 @@
           "order": 1,
           "controlType": "dropdown",
           "dynamic": true,
-          "options": [
-            {
-              "key": "25",
-              "value": "Austin"
-            }
-          ]
+          "options": []
         }
       ],
       "defaults": {}
