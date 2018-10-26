@@ -60,7 +60,6 @@ describe('generateText', function () {
     ]
     const text = t.generateText(periods);
     const lines = text.split("\n");
-    console.log(lines);
     assert(lines.length == periods.length, "Incorrect number of forecast lines");
   });
 
@@ -70,7 +69,6 @@ describe('generateText', function () {
       { name: 'Tuesday', detailedForecast: "Even\nmore\n\n\nlines"}
     ];
     const text = t.generateText(periods);
-    console.log('#' + text + '#');
     const lines = text.split("\n");
     assert(lines.length == periods.length, "Incorrect number of forecast lines");
   });
@@ -136,10 +134,18 @@ describe('WeatherForecast', function () {
       height: 1,
     }
   };
-  it('can run', function () {
+  it('#run()', function () {
     app.run().then((signal) => {
-      console.log(JSON.stringify(signal));
       assert.ok(signal);
     });
+  });
+  it('#selections()', function () {
+    app.selections('zoneId').then((selections) => {
+      assert.ok(selections);
+      assert(selections.length > 1, 'Selections did not have an array of values.');
+      const option = selections[0];
+      assert.ok(option.value);
+      assert.ok(option.label);
+    })
   })
 })
