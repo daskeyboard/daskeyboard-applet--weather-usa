@@ -14,9 +14,32 @@
   "qConfig": {
     "geometry": {
       "width": 1,
-      "height": 1
+      "height": 1,
+      "defaults": {
+        "origin": {
+          "x": 0,
+          "y": 1
+        }
+      }
     },
     "applet": {
+      "questions": [
+        {
+          "key": "zoneId",
+          "label": "Choose your city",
+          "help": "select the city from the dropdown",
+          "required": true,
+          "order": 1,
+          "controlType": "dropdown",
+          "dynamic": true,
+          "options": [
+            {
+              "key": "25",
+              "value": "Austin"
+            }
+          ]
+        }
+      ],
       "defaults": {}
     },
     "requirements": {
