@@ -136,16 +136,16 @@ async function getForecast(zoneId) {
 }
 
 function generateText(periods) {
-    const forecasts = [];
-    for (let i = 0; i < periods.length; i += 1) {
-      let text = periods[i].detailedForecast.trim();
-      text = text.replace(/\n/g, " ");
-      text = text.replace(/\s+/g, ' ');
-      forecasts.push(periods[i].name + ": " + text);
-    }
-
-    return forecasts.join("\n");
+  const forecasts = [];
+  for (let i = 0; i < periods.length; i += 1) {
+    let text = periods[i].detailedForecast.trim();
+    text = text.replace(/\n/g, " ");
+    text = text.replace(/\s+/g, ' ');
+    forecasts.push(periods[i].name + ": " + text);
   }
+
+  return forecasts.join("\n");
+}
 
 
 
@@ -184,7 +184,10 @@ class WeatherForecast extends q.DesktopApp {
         if (feature.properties.state) {
           value = value + ', ' + feature.properties.state;
         }
-        options.push({key: key, value: value});
+        options.push({
+          key: key,
+          value: value
+        });
       }
     }
     return options;
@@ -205,12 +208,14 @@ class WeatherForecast extends q.DesktopApp {
           for (let i = 0; i < width; i += 1) {
             // we skip every other one because we get a daily and nightly
             // forecast for each day
-            const period = periods[i * 2];
-            forecastPeriods.push(period);
-            const observation = evaluateForecast(period.detailedForecast);
-            const forecastValue = observation.prioritize();
-            const color = COLORS[forecastValue];
-            points.push(new q.Point(color));
+            if (periods.length > i * 2) {
+              const period = periods[i * 2];
+              forecastPeriods.push(period);
+              const observation = evaluateForecast(period.detailedForecast);
+              const forecastValue = observation.prioritize();
+              const color = COLORS[forecastValue];
+              points.push(new q.Point(color));
+            }
           }
 
           return new q.Signal({
