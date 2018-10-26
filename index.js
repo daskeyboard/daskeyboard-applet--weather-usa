@@ -179,12 +179,12 @@ class WeatherForecast extends q.DesktopApp {
     const options = [];
     for (let feature of zones.features) {
       if (feature.properties.type === 'public') {
-        const value = feature.properties.id;
-        let label = feature.properties.name;
+        const key = feature.properties.id;
+        let value = feature.properties.name;
         if (feature.properties.state) {
-          label = label + ', ' + feature.properties.state;
+          value = value + ', ' + feature.properties.state;
         }
-        options.push({value: value, label: label});
+        options.push({key: key, value: value});
       }
     }
     return options;
