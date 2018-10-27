@@ -9,18 +9,12 @@ const serviceHeaders = {
 var zones = null;
 
 const COLORS = Object.freeze({
-  // CLEAR: '#FFFF00',
-  // CLOUDY: '#FF00FF',
-  // SHOWER: '#0000FF',
-  // SNOW: '#FFFFFF',
-  // STORM: '#FF0000',
-  // SUNNY: '#FFFF00'
-  CLEAR: '#FF0000',
-  CLOUDY: '#FF0000',
-  SHOWER: '#FF0000',
-  SNOW: '#FF0000',
+  CLEAR: '#FFFF00',
+  CLOUDY: '#FF00FF',
+  SHOWER: '#0000FF',
+  SNOW: '#FFFFFF',
   STORM: '#FF0000',
-  SUNNY: '#FF0000'
+  SUNNY: '#FFFF00'
 })
 
 
@@ -156,11 +150,6 @@ function generateText(periods) {
 
 
 class WeatherForecast extends q.DesktopApp {
-  constructor() {
-    super();
-    this.pollingInterval = 2000;
-  }
-
   async selections(fieldName) {
     if (zones) {
       console.log("Sending preloaded zones");
