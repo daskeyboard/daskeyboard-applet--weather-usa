@@ -1,6 +1,6 @@
 {
   "name": "q-applet-weather",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Das Keyboard Applet for Weather Forecast",
   "main": "index.js",
   "scripts": {
