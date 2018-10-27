@@ -22,21 +22,18 @@
         }
       }
     },
-    "applet": {
-      "questions": [
-        {
-          "key": "zoneId",
-          "label": "Choose your city",
-          "help": "select the city from the dropdown",
-          "required": true,
-          "order": 1,
-          "controlType": "dropdown",
-          "dynamic": true,
-          "options": []
-        }
-      ],
-      "defaults": {}
-    },
+    "questions": [
+      {
+        "key": "zoneId",
+        "label": "Choose your city",
+        "help": "select the city from the dropdown",
+        "required": true,
+        "order": 1,
+        "controlType": "dropdown",
+        "dynamic": true,
+        "options": []
+      }
+    ],
     "requirements": {
       "applet": {
         "zoneId": "select"
