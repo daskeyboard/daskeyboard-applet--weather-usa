@@ -150,6 +150,10 @@ function generateText(periods) {
 
 
 class WeatherForecast extends q.DesktopApp {
+  constructor() {
+    super();
+    this.pollingInterval = 2000;
+  }
   async selections(fieldName) {
     if (zones) {
       console.log("Sending preloaded zones");
