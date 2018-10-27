@@ -9,12 +9,18 @@ const serviceHeaders = {
 var zones = null;
 
 const COLORS = Object.freeze({
-  CLEAR: '#FFFF00',
-  CLOUDY: '#FF00FF',
-  SHOWER: '#0000FF',
-  SNOW: '#FFFFFF',
+  // CLEAR: '#FFFF00',
+  // CLOUDY: '#FF00FF',
+  // SHOWER: '#0000FF',
+  // SNOW: '#FFFFFF',
+  // STORM: '#FF0000',
+  // SUNNY: '#FFFF00'
+  CLEAR: '#FF0000',
+  CLOUDY: '#FF0000',
+  SHOWER: '#FF0000',
+  SNOW: '#FF0000',
   STORM: '#FF0000',
-  SUNNY: '#FFFF00'
+  SUNNY: '#FF0000'
 })
 
 
