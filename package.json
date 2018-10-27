@@ -22,6 +22,9 @@
         }
       }
     },
+    "applet": {
+      "defaults": {}
+    },
     "questions": [
       {
         "key": "zoneId",
