@@ -1,14 +1,16 @@
 {
   "name": "q-applet-weather",
+  "displayName": "Q Weather Applet",
   "version": "1.0.0",
   "description": "Das Keyboard Q Applet for Weather Forecast",
-  "longDescription": "Display the weather forecast on your Q keyboard."
+  "longDescription": "Display the weather forecast on your Q keyboard.",
   "officialProduct": "",
   "appUrl": "",
   "isSingleton": false,
   "videoUrl": "",
   "icon": "images/icon.png",
   "image": "images/bigimage.png",
+  "publisherName": "Das Keyboard",
   "authorName": "Das Keyboard team",
   "authorUrl": "https://twitter.com/daskeyboard",
   "issuesUrl": "https://twitter.com/daskeyboard",
@@ -16,14 +18,6 @@
   "licenseUrl": "",
   "changelogUrl": "",
   "qActionUrl": "",
-  
-  
-  
-  
-  
-  
-  
-  
   "main": "index.js",
   "scripts": {
     "test": "mocha"
