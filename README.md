@@ -2,6 +2,10 @@
 
 Display the weather forecast on a Das Keyboard Q series.
 
+## Requirements
+
+Q Desktop and Q series Das Keyboard (www.daskeyboard.com/5q).
+
 ## Copyright / License
 
 Copyright 2014 - 2018 Das Keyboard / Metadot Corp.
