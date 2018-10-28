@@ -1,6 +1,6 @@
 {
   "name": "q-applet-weather",
-  "displayName": "Q Weather Applet",
+  "displayName": "Q Weather",
   "version": "1.0.0",
   "description": "Das Keyboard Q Applet for Weather Forecast",
   "longDescription": "Display the weather forecast on your Q keyboard.",
@@ -15,7 +15,7 @@
   "authorUrl": "https://twitter.com/daskeyboard",
   "issuesUrl": "https://github.com/metadot/q-applet-weather/issues",
   "developerRepoUrl": "https://github.com/metadot/q-applet-stock-quote",
-  "licenseUrl": "",
+  "licenseUrl": "http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
   "changelogUrl": "",
   "qActionUrl": "",
   "main": "index.js",
