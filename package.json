@@ -8,12 +8,12 @@
   "appUrl": "",
   "isSingleton": false,
   "videoUrl": "",
-  "icon": "images/icon.png",
-  "image": "images/bigimage.png",
+  "icon": "images/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxicon.png",
+  "image": "images/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxbigimage.png",
   "publisherName": "Das Keyboard",
   "authorName": "Das Keyboard team",
   "authorUrl": "https://twitter.com/daskeyboard",
-  "issuesUrl": "https://twitter.com/daskeyboard",
+  "issuesUrl": "https://github.com/metadot/q-applet-weather/issues",
   "developerRepoUrl": "https://github.com/metadot/q-applet-stock-quote",
   "licenseUrl": "",
   "changelogUrl": "",
@@ -22,8 +22,6 @@
   "scripts": {
     "test": "mocha"
   },
-  "author": "Cory Kim",
-  "license": "MIT",
   "dependencies": {
     "daskeyboard-applet": "~2.4.3"
   },
