@@ -180,7 +180,8 @@ class WeatherForecast extends q.DesktopApp {
     console.log("My options are: ", options);
     const zoneId = this.config.zoneId;
     if (zoneId !== null) {
-      for (option of options) {
+      console.log("Checking for matching zoneId: " + zoneid);
+      for (let option of options) {
         if (option.id === zoneId) {
           this.zoneName = option.name;
           break;
