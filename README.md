@@ -1,10 +1,21 @@
-# Q Applet Weather
+# Q Applet Weather Forecast
 
-Display the weather forecast on a Das Keyboard Q series.
+Displays the weather forecast on a Das Keyboard Q series.
 
-## Requirements
+[GitHub repository](https://github.com/daskeyboard/q-applet-weather)
 
-Q Desktop and Q series Das Keyboard (www.daskeyboard.com/5q).
+## Changelog
+
+[CHANGELOG.MD](CHANGELOG.md)
+
+## Installation
+
+Requires a Das Keyboard Q Series: www.daskeyboard.com/5q
+
+Installation, configuration and uninstallation of applets is done within
+the Q Desktop application (https://www.daskeyboard.io/get-started/software/)
+
+## Docs & Contribute
 
 ## Copyright / License
 
