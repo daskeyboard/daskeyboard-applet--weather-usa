@@ -24,7 +24,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "daskeyboard-applet": "~2.4.3"
+    "daskeyboard-applet": "/home/cory/Workspaces/metadot/npm-qbuzz"
   },
   "qConfig": {
     "geometry": {
