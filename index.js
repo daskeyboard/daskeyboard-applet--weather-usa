@@ -183,7 +183,7 @@ class WeatherForecast extends q.DesktopApp {
       const zoneInfo = this.getZoneInfo();
       console.log("My saved zoneInfo is: ", zoneInfo);
 
-      if (this.zoneId !== zoneInfo.id || this.zoneName !== zoneId.name) {
+      if (!zoneInfo || this.zoneId !== zoneInfo.id || this.zoneName !== zoneId.name) {
         // store the new zone name in my configuration
         const options = await this.options();
         console.log("Checking for matching zoneId: " + zoneId);
