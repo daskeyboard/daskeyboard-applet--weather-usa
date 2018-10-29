@@ -180,10 +180,12 @@ class WeatherForecast extends q.DesktopApp {
     // that we can include it in the forecast.
     const zoneId = this.config.zoneId;
     if (zoneId) {
-      const zoneInfo = this.getZoneInfo();
+      const zoneInfo = this.store.get('zoneName');
       console.log("My saved zoneInfo is: ", zoneInfo);
 
-      if (!zoneInfo || this.zoneId !== zoneInfo.id || this.zoneName !== zoneId.name) {
+      if (zoneInfo && zoneInfo.id === this.zoneId) {
+        this.zoneName = zoneInfo.name;
+      } else {
         // store the new zone name in my configuration
         const options = await this.options();
         console.log("Checking for matching zoneId: " + zoneId);
@@ -191,27 +193,23 @@ class WeatherForecast extends q.DesktopApp {
           if (option.key === zoneId) {
             this.zoneName = option.value;
             console.log("My zone name is: " + this.zoneName);
+
+            this.store.put('zoneName', {
+              id: zoneId,
+              name: this.zoneName
+            });
             break;
           }
         }
         console.log("Finished checking for matching zoneId.");
 
-        if (this.zoneName) {
-          this.store.put('zoneName', {
-            id: zoneId,
-            name: this.zoneName
-          });
-        } else {
+        if (!this.zoneName) {
           throw new Error("Could not find zone with ID: " + zoneId);
         }
       }
     }
 
     return true;
-  }
-
-  getZoneInfo() {
-    this.zoneName = this.store.get('zoneName');
   }
 
   /**
