@@ -176,32 +176,41 @@ class WeatherForecast extends q.DesktopApp {
 
 
   async applyConfig() {
+    // we save the zoneId's corresponding zone name to persistent storage so
+    // that we can include it in the forecast.
     const zoneId = this.config.zoneId;
     if (zoneId) {
-      const options = await this.options();
-      console.log("My options are: ", options);
+      const zoneInfo = this.getZoneInfo();
+      console.log("My saved zoneInfo is: ", zoneInfo);
 
-      console.log("Checking for matching zoneId: " + zoneId);
-      for (let option of options) {
-        if (option.key === zoneId) {
-          this.zoneName = option.value;
-          console.log("My zone name is: " + this.zoneName);
-          break;
+      if (this.zoneId !== zoneInfo.id || this.zoneName !== zoneId.name) {
+        // store the new zone name in my configuration
+        const options = await this.options();
+        console.log("Checking for matching zoneId: " + zoneId);
+        for (let option of options) {
+          if (option.key === zoneId) {
+            this.zoneName = option.value;
+            console.log("My zone name is: " + this.zoneName);
+            break;
+          }
         }
-      }
-      console.log("Finished checking for matching zoneId.");
+        console.log("Finished checking for matching zoneId.");
 
-      if (this.zoneName) {
-        this.store.put('zoneName', this.zoneName);
-      } else {
-        throw new Error("Could not find zone with ID: " + zoneId);
+        if (this.zoneName) {
+          this.store.put('zoneName', {
+            id: zoneId,
+            name: this.zoneName
+          });
+        } else {
+          throw new Error("Could not find zone with ID: " + zoneId);
+        }
       }
     }
 
     return true;
   }
 
-  getZoneName() {
+  getZoneInfo() {
     this.zoneName = this.store.get('zoneName');
   }
 
