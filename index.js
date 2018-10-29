@@ -177,7 +177,7 @@ class WeatherForecast extends q.DesktopApp {
 
   async applyConfig() {
     const zoneId = this.config.zoneId;
-    if (zoneId !== null) {
+    if (zoneId) {
       const options = await this.options();
       console.log("My options are: ", options);
 
