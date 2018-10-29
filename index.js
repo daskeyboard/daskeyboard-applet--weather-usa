@@ -150,13 +150,17 @@ function generateText(periods) {
 
 
 class WeatherForecast extends q.DesktopApp {
-  async selections(fieldName) {
+  constructor() {
+    super();
+    this.zoneName = null;
+  }
+
+  async options(fieldName) {
     if (zones) {
       console.log("Sending preloaded zones");
       return this.processZones(zones);
     } else {
       console.log("Retrieving zones...");
-      //const zones = require('./zones.json');
       return request.get({
         url: apiUrl + '/zones?type=forecast',
         headers: serviceHeaders,
@@ -168,6 +172,32 @@ class WeatherForecast extends q.DesktopApp {
         console.error("Caught error:", error);
       })
     }
+  }
+
+
+  async applyConfig() {
+    const selections = await this.selections();
+    const zoneId = this.config.zoneId;
+    if (zoneId !== null) {
+      for (selection of selections) {
+        if (selection.id === zoneId) {
+          this.zoneName = selection.name;
+          break;
+        }
+      }
+
+      if (this.zoneName) {
+        this.store.put('zoneName', this.zoneName);
+      } else {
+        throw new Error("Could not find zone with ID: " + zoneId);
+      }
+    }
+
+    return true;
+  }
+
+  getZoneName() {
+    this.zoneName = this.store.get('zoneName');
   }
 
   /**
