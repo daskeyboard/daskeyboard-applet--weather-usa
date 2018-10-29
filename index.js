@@ -263,7 +263,8 @@ class WeatherForecast extends q.DesktopApp {
           return new q.Signal({
             points: [points],
             name: "Weather Forecast",
-            message: generateText(forecastPeriods)
+            message: `Weather Forecast for ${this.zoneName}:\n`
+             + generateText(forecastPeriods)
           });
         } else {
           console.log("No forecast for zone: " + zone);

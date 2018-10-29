@@ -1,6 +1,7 @@
 const assert = require('assert');
 const t = require('../index');
 const zoneId = 'TXZ211';
+const zoneName = 'Austin, TX';
 
 describe('evaluateForecast', function () {
   it('can evaluate percentage', function () {
@@ -134,16 +135,20 @@ describe('WeatherForecast', function () {
       height: 1,
     }
   };
+  app.zoneName = zoneName;
+
   it('#run()', function () {
     app.run().then((signal) => {
-      assert.ok(signal);
+      console.log(JSON.stringify(signal));
+      assert.ok(signal);      
+      assert(signal.message.includes(zoneName));
     });
   });
-  it('#selections()', function () {
-    app.selections('zoneId').then((selections) => {
-      assert.ok(selections);
-      assert(selections.length > 1, 'Selections did not have an array of values.');
-      const option = selections[0];
+  it('#options()', function () {
+    app.options('zoneId').then((options) => {
+      assert.ok(options);
+      assert(options.length > 1, 'Selections did not have an array of values.');
+      const option = options[0];
       assert.ok(option.key);
       assert.ok(option.value);
     })
