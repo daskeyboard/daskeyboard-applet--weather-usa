@@ -24,7 +24,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "daskeyboard-applet": "~2.5.5"
+    "daskeyboard-applet": "~2.6.3"
   },
   "qConfig": {
     "geometry": {
