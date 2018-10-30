@@ -113,8 +113,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-"daskeyboard-applet@file:../npm-qbuzz":
-  version "2.4.5"
+daskeyboard-applet@~2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/daskeyboard-applet/-/daskeyboard-applet-2.5.3.tgz#d335c957795ca6360cb54e262d64cd7875f929e0"
+  integrity sha512-bn0/yYYiE+wIgmhsMmHCw/hswa3w06BkCiyEi9r46cKMYIpBwnPY5HXvIrNqPc0iY8D9rm83XpcWw1chAQZS4w==
   dependencies:
     node-storage "^0.0.7"
     request "^2.88.0"

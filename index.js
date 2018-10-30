@@ -185,6 +185,7 @@ class WeatherForecast extends q.DesktopApp {
 
       if (zoneInfo && zoneInfo.id === zoneId) {
         this.zoneName = zoneInfo.name;
+        console.log("Retrieved zoneName: " + this.zoneName);
       } else {
         // store the new zone name in my configuration
         const options = await this.options();
@@ -260,12 +261,14 @@ class WeatherForecast extends q.DesktopApp {
             }
           }
 
-          return new q.Signal({
+          const signal = new q.Signal({
             points: [points],
             name: "Weather Forecast",
-            message: `Weather Forecast for ${this.zoneName}:\n`
-             + generateText(forecastPeriods)
+            message: `Weather Forecast for ${this.zoneName}:\n` +
+              generateText(forecastPeriods)
           });
+          console.log('Sending signal: ' + JSON.stringify(signal));
+          return signal;
         } else {
           console.log("No forecast for zone: " + zone);
           return null;
