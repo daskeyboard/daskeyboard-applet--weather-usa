@@ -6,7 +6,9 @@ Displays the weather forecast on a Das Keyboard Q series.
 
 ## Example
 
-4-day Weather forecast for 2 locations
+Displays 4-day weather forecast on a Das Keyboard Q Series.
+Each color corresponds to a weather change:  
+sunny (yellow), rainy (blue), storm (red), cloudy (purple).
 
 ![Weather Forecast on a Das Keybaord Q](./assets/q-applet-weather-image.png "Q Weather Forecast")
 
