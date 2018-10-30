@@ -4,6 +4,12 @@ Displays the weather forecast on a Das Keyboard Q series.
 
 [GitHub repository](https://github.com/daskeyboard/q-applet-weather)
 
+## Example
+
+4-day Weather forecast for 2 locations
+
+![Weather Forecast on a Das Keybaord Q](./assets/q-applet-weather-image.png "Q Weather Forecast")
+
 ## Changelog
 
 [CHANGELOG.MD](CHANGELOG.md)
