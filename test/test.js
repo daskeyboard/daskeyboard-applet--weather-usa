@@ -37,7 +37,9 @@ describe('evaluateForecast', function () {
 
 describe('getForecast', function () {
   it('can get a forecast', function () {
-    t.getForecast(zoneId).then((periods) => {
+    t.getForecast(zoneId).then((body) => {
+      console.log("Got forecast: " + JSON.stringify(body));
+      const periods = body.periods;
       assert.ok(periods, "Did not get valid periods.");
       assert(periods.length > 10, "Did not get enough periods.");
     });

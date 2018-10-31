@@ -3,7 +3,8 @@ const request = require('request-promise');
 const logger = q.logger;
 const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
-  "User-Agent": "Das Keyboard q-applet-weather"
+  'User-Agent': 'request(q-applet-weather)',
+  'Accept': 'application/geo+json',
 }
 
 var zones = null;
@@ -110,13 +111,14 @@ function evaluateForecast(forecastText) {
     snow: forecast.includes('snow'),
     storm: forecast.includes('storm'),
     sunny: forecast.includes('sunny'),
-    percent: (percentMatches && percentMatches.length > 1) ? percentMatches[1] : '0'
+    percent: (percentMatches && percentMatches.length > 1) ? 
+      percentMatches[1] : '0'
   });
 }
 
 
 async function getForecast(zoneId) {
-  const url = apiUrl + `/zones/forecast/${zoneId}/forecast`;
+  const url = apiUrl + `/zones/ZFP/${zoneId}/forecast`;
   logger.info("Getting forecast via URL: " + url);
   return request.get({
     url: url,
@@ -125,7 +127,7 @@ async function getForecast(zoneId) {
   }).then(body => {
     const periods = body.periods;
     if (periods) {
-      return periods;
+      return body;
     } else {
       throw new Error("No periods returned.");
     }
@@ -256,12 +258,17 @@ class WeatherForecast extends q.DesktopApp {
       logger.info("My zone ID is  : " + zoneId);
       logger.info("My zone name is: " + zoneName);
 
-      return getForecast(zoneId).then(periods => {
+      return getForecast(zoneId).then(body => {
+        const periods = body.periods || [];
+        const updated = body.updated;
         const width = this.geometry.width || 4;
+
+        logger.info("Forecast was updated on " + updated);
+        logger.info(`Forecast contains ${periods.length} periods.`);
         logger.info("My width is: " + width);
         const points = [];
         const forecastPeriods = [];
-        if (periods && periods.length > 0) {
+        if (periods.length > 0) {
           logger.info("Got forecast: " + zoneId);
           for (let i = 0; i < width; i += 1) {
             // we skip every other one because we get a daily and nightly
