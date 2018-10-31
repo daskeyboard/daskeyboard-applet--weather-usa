@@ -1,6 +1,6 @@
 const q = require('daskeyboard-applet');
 const request = require('request-promise');
-
+const logger = q.logger;
 const apiUrl = "https://api.weather.gov";
 const serviceHeaders = {
   "User-Agent": "Das Keyboard q-applet-weather"
@@ -117,7 +117,7 @@ function evaluateForecast(forecastText) {
 
 async function getForecast(zoneId) {
   const url = apiUrl + `/zones/forecast/${zoneId}/forecast`;
-  console.log("Getting forecast via URL: " + url);
+  logger.info("Getting forecast via URL: " + url);
   return request.get({
     url: url,
     headers: serviceHeaders,
@@ -130,7 +130,7 @@ async function getForecast(zoneId) {
       throw new Error("No periods returned.");
     }
   }).catch((error) => {
-    console.error("Caught error:", error);
+    logger.error("Caught error:", error);
     return null;
   })
 }
@@ -155,12 +155,12 @@ class WeatherForecast extends q.DesktopApp {
     this.zoneName = null;
   }
 
-  async options(fieldName) {
+  async options() {
     if (zones) {
-      console.log("Sending preloaded zones");
+      logger.info("Sending preloaded zones");
       return this.processZones(zones);
     } else {
-      console.log("Retrieving zones...");
+      logger.info("Retrieving zones...");
       return request.get({
         url: apiUrl + '/zones?type=forecast',
         headers: serviceHeaders,
@@ -169,48 +169,59 @@ class WeatherForecast extends q.DesktopApp {
         zones = body;
         return this.processZones(zones);
       }).catch((error) => {
-        console.error("Caught error:", error);
+        logger.error("Caught error:", error);
       })
     }
   }
 
 
-  async applyConfig() {
-    // we save the zoneId's corresponding zone name to persistent storage so
-    // that we can include it in the forecast.
-    const zoneId = this.config.zoneId;
-    if (zoneId) {
-      const zoneInfo = this.store.get('zoneName');
-      console.log("My saved zoneInfo is: ", zoneInfo);
+  async applyConfig() {}
 
-      if (zoneInfo && zoneInfo.id === zoneId) {
-        this.zoneName = zoneInfo.name;
-        console.log("Retrieved zoneName: " + this.zoneName);
-      } else {
-        // store the new zone name in my configuration
-        const options = await this.options();
-        console.log("Checking for matching zoneId: " + zoneId);
-        for (let option of options) {
-          if (option.key === zoneId) {
-            this.zoneName = option.value;
-            console.log("My zone name is: " + this.zoneName);
+  async getZoneName() {
+    if (this.zoneName) {
+      return this.zoneName;
+    } else {
+      // we save the zoneId's corresponding zone name to persistent storage so
+      // that we can include it in the forecast.
+      const zoneId = this.config.zoneId;
+      if (zoneId) {
+        const zoneInfo = this.store.get('zoneInfo');
+        logger.info("My saved zoneInfo is: " + JSON.stringify(zoneInfo));
 
-            this.store.put('zoneName', {
-              id: zoneId,
-              name: this.zoneName
-            });
-            break;
+        if (zoneInfo && zoneInfo.id === zoneId) {
+          this.zoneName = zoneInfo.name;
+          logger.info("Retrieved zoneName: " + this.zoneName);
+          return this.zoneName;
+        } else {
+          logger.info('Saved zone is inconsistent with configured zone. ' +
+            'Retrieving from service...');
+          // store the new zone name in my configuration
+          const options = await this.options();
+          logger.info("Checking for matching zoneId: " + zoneId);
+          for (let option of options) {
+            if (option.key === zoneId) {
+              this.zoneName = option.value;
+              logger.info("My zone name is: " + this.zoneName);
+
+              this.store.put('zoneInfo', {
+                id: zoneId,
+                name: this.zoneName
+              });
+              break;
+            }
+          }
+          logger.info("Finished checking for matching zoneId.");
+
+          if (this.zoneName) {
+            return this.zoneName;
+          } else {
+            throw new Error("Could not find zone with ID: " + zoneId);
           }
         }
-        console.log("Finished checking for matching zoneId.");
-
-        if (!this.zoneName) {
-          throw new Error("Could not find zone with ID: " + zoneId);
-        }
+      } else {
+        return null;
       }
     }
-
-    return true;
   }
 
   /**
@@ -218,7 +229,7 @@ class WeatherForecast extends q.DesktopApp {
    * @param {*} zones 
    */
   async processZones(zones) {
-    console.log("Processing zones JSON");
+    logger.info("Processing zones JSON");
     const options = [];
     for (let feature of zones.features) {
       if (feature.properties.type === 'public') {
@@ -237,17 +248,21 @@ class WeatherForecast extends q.DesktopApp {
   }
 
   async run() {
-    console.log("Running.");
-    const zone = this.config.zoneId;
-    if (zone) {
-      console.log("My zone is: " + zone);
-      return getForecast(zone).then(periods => {
+    logger.info("Running.");
+    const zoneId = this.config.zoneId;
+    const zoneName = await this.getZoneName();
+
+    if (zoneId) {
+      logger.info("My zone ID is  : " + zoneId);
+      logger.info("My zone name is: " + zoneName);
+
+      return getForecast(zoneId).then(periods => {
         const width = this.geometry.width || 4;
-        console.log("My width is: " + width);
+        logger.info("My width is: " + width);
         const points = [];
         const forecastPeriods = [];
         if (periods && periods.length > 0) {
-          console.log("Got forecast: " + zone);
+          logger.info("Got forecast: " + zoneId);
           for (let i = 0; i < width; i += 1) {
             // we skip every other one because we get a daily and nightly
             // forecast for each day
@@ -264,21 +279,21 @@ class WeatherForecast extends q.DesktopApp {
           const signal = new q.Signal({
             points: [points],
             name: "Weather Forecast",
-            message: `Weather Forecast for ${this.zoneName}:\n` +
+            message: `Weather Forecast for ${zoneName}:\n` +
               generateText(forecastPeriods)
           });
-          console.log('Sending signal: ' + JSON.stringify(signal));
+          logger.info('Sending signal: ' + JSON.stringify(signal));
           return signal;
         } else {
-          console.log("No forecast for zone: " + zone);
+          logger.info("No forecast for zone: " + zoneId);
           return null;
         }
       }).catch((error) => {
-        console.error("Error while getting forecast:", error);
+        logger.error("Error while getting forecast:", error);
         return null;
       })
     } else {
-      console.log("No zoneId configured.");
+      logger.info("No zoneId configured.");
       return null;
     }
   }
