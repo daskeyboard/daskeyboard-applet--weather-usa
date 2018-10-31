@@ -171,10 +171,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-daskeyboard-applet@~2.7.7:
-  version "2.7.7"
-  resolved "https://registry.yarnpkg.com/daskeyboard-applet/-/daskeyboard-applet-2.7.7.tgz#940d7cf43360c23d2032f58b015f78d08318d29a"
-  integrity sha512-CsLJaayAvUsmCzj1vwKax8crsjv4WjRYqevzHFYDxrUmxH2o+kWO0EA5fzwhvWKq1N0pSjUFIERv/18E1+uYJQ==
+daskeyboard-applet@^2.7.9:
+  version "2.7.9"
+  resolved "https://registry.yarnpkg.com/daskeyboard-applet/-/daskeyboard-applet-2.7.9.tgz#8c07a8cfc5a0e661972af69f5084cedf9f8c5f00"
+  integrity sha512-g/d8tIUlDt7kdI1aJiItCBgt03shTGHexjWda+lS0w4ymxFVOM6vrKuCCax2i2b/NRO6KRwY+/HM1deQQfwVcA==
   dependencies:
     moment "^2.22.2"
     node-storage "^0.0.7"
