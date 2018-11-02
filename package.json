@@ -1,7 +1,7 @@
 {
   "name": "q-applet-weather",
   "displayName": "Weather Forecast",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Display weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
   "officialProductName": "",
