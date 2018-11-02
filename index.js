@@ -2,10 +2,6 @@ const q = require('daskeyboard-applet');
 const request = require('request-promise');
 const logger = q.logger;
 const apiUrl = "https://api.weather.gov";
-const serviceHeaders = {
-  'User-Agent': 'request(q-applet-weather)',
-  'Accept': 'application/geo+json',
-}
 
 var zones = null;
 
@@ -116,13 +112,20 @@ function evaluateForecast(forecastText) {
   });
 }
 
+// this is a work-around to a bug in the API that seems to send stale forecasts
+function generateServiceHeaders() {
+  return {
+    'User-Agent': 'request(q-applet-weather)',
+    'Accept': `application/geo+json, application/qawf-${new Date().getTime() + '' + Math.round(Math.random() * 10000)}`,
+  };
+}
 
 async function getForecast(zoneId) {
   const url = apiUrl + `/zones/ZFP/${zoneId}/forecast`;
   logger.info("Getting forecast via URL: " + url);
   return request.get({
     url: url,
-    headers: serviceHeaders,
+    headers: generateServiceHeaders(),
     json: true
   }).then(body => {
     const periods = body.periods;
@@ -165,7 +168,7 @@ class WeatherForecast extends q.DesktopApp {
       logger.info("Retrieving zones...");
       return request.get({
         url: apiUrl + '/zones?type=forecast',
-        headers: serviceHeaders,
+        headers: generateServiceHeaders(),
         json: true
       }).then(body => {
         zones = body;
@@ -312,6 +315,7 @@ module.exports = {
   Observation: Observation,
   WeatherForecast: WeatherForecast,
   evaluateForecast: evaluateForecast,
+  generateServiceHeaders: generateServiceHeaders,
   getForecast: getForecast,
   generateText: generateText
 }

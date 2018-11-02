@@ -46,6 +46,21 @@ describe('getForecast', function () {
   });
 })
 
+describe('generateServiceHeaders', function() {
+  it('can generate a header object', function () {
+    const test = t.generateServiceHeaders();
+    assert.ok(test);
+  });
+  it('generates unique service headers', function() {
+    const test1 = t.generateServiceHeaders();
+    const test2 = t.generateServiceHeaders();
+    console.log("Service headers: " + JSON.stringify(test1));
+    console.log("Service headers: " + JSON.stringify(test2));
+    assert.notDeepEqual(test1, test2);
+  });
+});
+
+
 describe('generateText', function () {
   it('can generate meaningful text', function () {
     const periods = [{
