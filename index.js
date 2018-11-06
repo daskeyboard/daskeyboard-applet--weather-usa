@@ -288,7 +288,7 @@ class WeatherForecast extends q.DesktopApp {
 
           const signal = new q.Signal({
             points: [points],
-            name: "Weather Forecast",
+            name: `${zoneName}`,
             message: `Weather Forecast for ${zoneName}:\n` +
               generateText(forecastPeriods)
           });
