@@ -37,7 +37,7 @@ describe('evaluateForecast', function () {
 
 describe('getForecast', function () {
   it('can get a forecast', function () {
-    t.getForecast(zoneId).then((body) => {
+    return t.getForecast(zoneId).then((body) => {
       console.log("Got forecast: " + JSON.stringify(body));
       const periods = body.periods;
       assert.ok(periods, "Did not get valid periods.");
@@ -147,22 +147,23 @@ describe('WeatherForecast', function () {
   let app = new t.WeatherForecast();
   app.config = {
     zoneId: zoneId,
+    zoneId_LABEL: zoneName,
     geometry: {
       width: 4,
       height: 1,
     }
   };
-  app.zoneName = zoneName;
 
   it('#run()', function () {
-    app.run().then((signal) => {
+    return app.run().then((signal) => {
       console.log(JSON.stringify(signal));
       assert.ok(signal);      
       assert(signal.message.includes(zoneName));
     });
   });
   it('#options()', function () {
-    app.options('zoneId').then((options) => {
+    this.timeout(10000);
+    return app.options('zoneId').then((options) => {
       assert.ok(options);
       assert(options.length > 1, 'Selections did not have an array of values.');
       const option = options[0];

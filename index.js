@@ -182,53 +182,6 @@ class WeatherForecast extends q.DesktopApp {
 
   async applyConfig() {}
 
-  async getZoneName() {
-    if (this.zoneName) {
-      return this.zoneName;
-    } else {
-      // we save the zoneId's corresponding zone name to persistent storage so
-      // that we can include it in the forecast.
-      const zoneId = this.config.zoneId;
-      if (zoneId) {
-        const zoneInfo = this.store.get('zoneInfo');
-        logger.info("My saved zoneInfo is: " + JSON.stringify(zoneInfo));
-
-        if (zoneInfo && zoneInfo.id === zoneId) {
-          this.zoneName = zoneInfo.name;
-          logger.info("Retrieved zoneName: " + this.zoneName);
-          return this.zoneName;
-        } else {
-          logger.info('Saved zone is inconsistent with configured zone. ' +
-            'Retrieving from service...');
-          // store the new zone name in my configuration
-          const options = await this.options();
-          logger.info("Checking for matching zoneId: " + zoneId);
-          for (let option of options) {
-            if (option.key === zoneId) {
-              this.zoneName = option.value;
-              logger.info("My zone name is: " + this.zoneName);
-
-              this.store.put('zoneInfo', {
-                id: zoneId,
-                name: this.zoneName
-              });
-              break;
-            }
-          }
-          logger.info("Finished checking for matching zoneId.");
-
-          if (this.zoneName) {
-            return this.zoneName;
-          } else {
-            throw new Error("Could not find zone with ID: " + zoneId);
-          }
-        }
-      } else {
-        return null;
-      }
-    }
-  }
-
   /**
    * Process a zones JSON to an options list
    * @param {*} zones 
@@ -255,7 +208,7 @@ class WeatherForecast extends q.DesktopApp {
   async run() {
     logger.info("Running.");
     const zoneId = this.config.zoneId;
-    const zoneName = await this.getZoneName();
+    const zoneName = this.config.zoneId_LABEL || this.config.zoneId;
 
     if (zoneId) {
       logger.info("My zone ID is  : " + zoneId);
