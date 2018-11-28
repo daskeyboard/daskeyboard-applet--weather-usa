@@ -259,10 +259,7 @@ class WeatherForecast extends q.DesktopApp {
    */
   generateSignal(days) {
     days = days.slice(0, this.getWidth());
-
-    const messages = [
-      `Forecast for ${this.config.cityId_LABEL}`,
-    ];
+    const messages = [];
 
     for (let day of days) {
       messages.push(moment(day.date).format('dddd, MMMM Do'));
@@ -272,17 +269,17 @@ class WeatherForecast extends q.DesktopApp {
       messages.push("\n");
     }
 
-    return new q.Signal({
+    const signal = new q.Signal({
       points: [
         days.map(day => {
-          return new q.Point({
-            color: chooseColor(choosePeriod(day)),
-          })
+          return new q.Point(chooseColor(choosePeriod(day)))
         })
       ],
-      name: `Weather forecast for ${moment(day.date).format('dddd')}`,
+      name: `Forecast for ${this.config.cityId_LABEL}`,
       message: messages.join("\n"),
     });
+
+    return signal;
   }
 
   async run() {

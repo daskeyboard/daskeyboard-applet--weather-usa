@@ -485,8 +485,7 @@ describe('WeatherForecast', function () {
     const signal = app.generateSignal(days);
 
     assert(signal);
-    assert(signal.name.includes('Weather forecast for'));
-    assert(signal.message.includes(cityName));
+    assert(signal.name.includes('Forecast for'));
     assert(signal.message.includes("\nOvernight: Rain, 8°C\n"));
     assert(signal.message.includes("\Morning: Cloudy, 9°C\n"));
     assert(signal.message.includes("\nAfternoon: Sunny, 10°C\n"));
@@ -499,8 +498,7 @@ describe('WeatherForecast', function () {
     app.config.units = t.Units.imperial;
     const signal = app.generateSignal(days);
     assert(signal);
-    assert(signal.name.includes('Weather forecast for'));
-    assert(signal.message.includes(cityName));
+    assert(signal.name.includes('Forecast for'));
     assert(signal.message.includes("\nOvernight: Rain, 46°F\n"));
     assert(signal.message.includes("\Morning: Cloudy, 48°F\n"));
     assert(signal.message.includes("\nAfternoon: Sunny, 50°F\n"));
@@ -513,7 +511,8 @@ describe('WeatherForecast', function () {
     return app.run().then((signal) => {
       console.log(JSON.stringify(signal));
       assert.ok(signal);
-      assert(signal.message.includes(cityName));
+      assert(signal.name.includes('Forecast for'));
+      assert(signal.message.includes('Overnight:'));
     });
   });
 
