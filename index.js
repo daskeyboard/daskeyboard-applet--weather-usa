@@ -1,11 +1,14 @@
-const q = require('daskeyboard-applet');
+const fs = require('fs');
+const {
+  parseString
+} = require('xml2js');
+const moment = require('moment');
+const readline = require('readline');
 const request = require('request-promise');
+const q = require('daskeyboard-applet');
 const logger = q.logger;
-const apiUrl = "https://api.weather.gov";
 
-var zones = null;
-
-const COLORS = Object.freeze({
+const Colors = Object.freeze({
   CLEAR: '#FFFF00',
   CLOUDY: '#FF00FF',
   SHOWER: '#0000FF',
@@ -14,249 +17,292 @@ const COLORS = Object.freeze({
   SUNNY: '#FFFF00'
 })
 
-
-const FORECASTS = Object.freeze({
-  CLEAR: 'CLEAR',
-  CLOUDY: 'CLOUDY',
-  SHOWER: 'SHOWER',
-  SNOW: 'SNOW',
-  STORM: 'STORM',
-  SUNNY: 'SUNNY'
+const Units = Object.freeze({
+  metric: 'metric',
+  imperial: 'imperial'
 });
 
-class Observation {
-  constructor({
-    clear = false,
-    cloudy = false,
-    shower = false,
-    snow = false,
-    storm = false,
-    sunny = false,
-    percent = 0
-  }) {
-    this.clear = clear;
-    this.cloudy = cloudy;
-    this.shower = shower;
-    this.snow = snow;
-    this.storm = storm;
-    this.sunny = sunny;
-    this.percent = percent;
-  }
-
-  isLikely() {
-    return (this.percent && this.percent >= Observation.LIKELY_THRESHOLD);
-  }
-
-  isClear() {
-    return this.clear;
-  }
-
-  isCloudy() {
-    return this.cloudy;
-  }
-
-  isShower() {
-    return this.shower && this.isLikely();
-  }
-
-  isSnow() {
-    return this.snow && this.isLikely();
-  }
-
-  isStorm() {
-    return this.storm && this.isLikely();
-  }
-
-  isSunny() {
-    return this.sunny;
-  }
-
-  prioritize() {
-    if (this.isSnow()) {
-      return FORECASTS.SNOW;
-    } else if (this.isStorm()) {
-      return FORECASTS.STORM;
-    } else if (this.isShower()) {
-      return FORECASTS.SHOWER;
-    } else if (this.isCloudy()) {
-      return FORECASTS.CLOUDY;
-    } else if (this.isSunny()) {
-      return FORECASTS.SUNNY;
-    } else {
-      return FORECASTS.CLEAR;
-    }
-  }
-}
-
-Observation.LIKELY_THRESHOLD = 20;
-const percentChangeExpression = /(\d\d) percent chance/;
-
-
 /**
- * Evaluate a forecast string for specific features
- * @param {string} forecastText 
+ * Loads the weather cities from an installed text file
  */
-function evaluateForecast(forecastText) {
-  const forecast = forecastText.toLowerCase();
-  const percentMatches = percentChangeExpression.exec(forecast);
+async function loadCities() {
+  logger.info(`Retrieving cities...`);
 
-  return new Observation({
-    clear: forecast.includes('clear'),
-    cloudy: forecast.includes('cloudy'),
-    shower: forecast.includes('shower'),
-    snow: forecast.includes('snow'),
-    storm: forecast.includes('storm'),
-    sunny: forecast.includes('sunny'),
-    percent: (percentMatches && percentMatches.length > 1) ? 
-      percentMatches[1] : '0'
-  });
-}
+  return new Promise((resolve, reject) => {
+    const lines = [];
 
-// this is a work-around to a bug in the API that seems to send stale forecasts
-function generateServiceHeaders() {
-  return {
-    'User-Agent': 'request(q-applet-weather)',
-    'Accept': `application/geo+json, application/qawf-${new Date().getTime() + '' + Math.round(Math.random() * 10000)}`,
-  };
-}
+    const reader = readline.createInterface({
+      input: fs.createReadStream('cities.txt'),
+      crlfDelay: Infinity
+    });
 
-async function getForecast(zoneId) {
-  const url = apiUrl + `/zones/ZFP/${zoneId}/forecast`;
-  logger.info("Getting forecast via URL: " + url);
-  return request.get({
-    url: url,
-    headers: generateServiceHeaders(),
-    json: true
-  }).then(body => {
-    const periods = body.periods;
-    if (periods) {
-      return body;
-    } else {
-      throw new Error("No periods returned.");
-    }
-  }).catch((error) => {
-    logger.error("Caught error:", error);
-    return null;
+    reader.on('line', (line) => {
+      lines.push(line);
+    });
+
+    reader.on('close', () => {
+      // the first line is a header
+      resolve(lines.slice(1));
+    });
+
+    reader.on('error', error => {
+      reject(error);
+    })
   })
 }
 
-function generateText(periods) {
-  const forecasts = [];
-  for (let i = 0; i < periods.length; i += 1) {
-    let text = periods[i].detailedForecast.trim();
-    text = text.replace(/\n/g, " ");
-    text = text.replace(/\s+/g, ' ');
-    forecasts.push(periods[i].name + ": " + text);
+/**
+ * Process a list of zones into a list of options
+ * @param {Array<*>} lines 
+ */
+function processCities(lines) {
+  const options = [];
+  for (line of lines) {
+    const values = line.split("\t");
+    const url = values[17].trim() || values[16].trim() || values[15].trim();
+    const urlParts = url.split('//')[1].split('/');
+    options.push({
+      key: url,
+      value: `${values[3]}, ${urlParts[3]} (${values[10]})`,
+    })
   }
 
-  return forecasts.join("\n");
+  return options;
 }
 
+/**
+ * Retrieve forecast XML from the service
+ * @param {String} forecastUrl 
+ */
+async function retrieveForecast(forecastUrl) {
+  logger.info("Getting forecast via URL: " + forecastUrl);
+  return request.get({
+    url: forecastUrl,
+    json: false
+  }).then(async body => {
+    return new Promise((resolve, reject) => {
+      parseString(body, function (err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  });
+}
 
+/**
+ * Represents a single forecast period within a day
+ */
+class Period {
+  constructor({
+    from,
+    to,
+    number,
+    symbol = {},
+    precipitation = {},
+    windDirection = {},
+    windSpeed = {},
+    temperature = {},
+    pressure = {}
+  }) {
+
+    this.from = from;
+    this.to = to;
+    this.number = number;
+
+    this.symbol = symbol;
+    this.precipitation = precipitation;
+    this.windDirection = windDirection;
+    this.windSpeed = windSpeed;
+    this.temperature = temperature;
+    this.pressure = pressure;
+  }
+}
+
+Period.revive = function (json) {
+  const meta = json['$'];
+  return new Period({
+    from: meta.from,
+    to: meta.to,
+    number: meta.period,
+
+    symbol: json.symbol[0]['$'],
+    precipitation: json.precipitation[0]['$'],
+    windDirection: json.windDirection[0]['$'],
+    windSpeed: json.windSpeed[0]['$'],
+    temperature: json.temperature[0]['$'],
+    pressure: json.pressure[0]['$'],
+  });
+}
+
+/**
+ * Represents a day's worth of forecasts
+ */
+class Day {
+  constructor(date, periods) {
+    this.date = date;
+    this.periods = periods;
+  }
+}
+
+/**
+ * Process raw JSON forecast data into Days and Periods
+ * @param {String} data 
+ */
+function processForecast(data) {
+  const periods = data.weatherdata.forecast[0].tabular[0].time;
+  const days = [];
+  let currentDate = '';
+  let thisDay = null;
+  for (periodJson of periods) {
+    let period = Period.revive(periodJson);
+    let thisDate = period.from.split('T')[0];
+    if (thisDate !== currentDate) {
+      currentDate = thisDate;
+      if (thisDay) {
+        days.push(thisDay);
+      }
+      thisDay = new Day(thisDate, [period]);
+    } else {
+      thisDay.periods.push(period);
+    }
+
+    if (thisDay && thisDay.length) {
+      days.push(thisDay)
+    }
+  }
+
+  return days;
+}
+
+/**
+ * Choose the most relevant forecast period within a day.
+ * @param {Day} day 
+ */
+function choosePeriod(day) {
+  let periods = [...day.periods];
+  // strip the overnight period
+  if (periods.length === 4) {
+    periods = periods.slice(1);
+  }
+
+  // strip the late night period
+  if (periods.length > 1) {
+    periods = periods.slice(0, periods.length - 1);
+  }
+
+  // if only one period, then we return it
+  if (periods.length === 1) {
+    return periods[0];
+  }
+
+  // return the period with more precipitation
+  return (periods[0].precipitation.value > periods[1].precipitation.value) ?
+    periods[0] : periods[1];
+}
+
+const periodNameMap = {
+  '0': 'Overnight',
+  '1': 'Morning',
+  '2': 'Afternoon',
+  '3': 'Evening',
+}
+
+function generatePeriodText(period, units) {
+  const temperature = (units == Units.imperial) ?
+    Math.round(period.temperature.value * 1.8 + 32) + '°F' :
+    period.temperature.value + '°C';
+  return `${periodNameMap[period.number]}: ${period.symbol.name}, ${temperature}`;
+}
+
+/**
+ * Chooses the appropriate signal color for a period
+ * @param {Period} period 
+ */
+function chooseColor(period) {
+  const text = period.symbol.name.toLowerCase();
+  if (text.includes('snow')) {
+    return Colors.SNOW;
+  } else if (text.includes('storm')) {
+    return Colors.STORM;
+  } else if (text.includes('rain') || text.includes('shower')) {
+    return Colors.SHOWER;
+  } else if (text.includes('cloud')) {
+    return Colors.CLOUDY;
+  } else {
+    return Colors.CLEAR;
+  }
+}
 
 class WeatherForecast extends q.DesktopApp {
   constructor() {
     super();
-    this.zoneName = null;
+    this.cityName = null;
   }
-
-  async options() {
-    if (zones) {
-      logger.info("Sending preloaded zones");
-      return this.processZones(zones);
-    } else {
-      logger.info("Retrieving zones...");
-      return request.get({
-        url: apiUrl + '/zones?type=forecast',
-        headers: generateServiceHeaders(),
-        json: true
-      }).then(body => {
-        zones = body;
-        return this.processZones(zones);
-      }).catch((error) => {
-        logger.error("Caught error:", error);
-      })
-    }
-  }
-
 
   async applyConfig() {}
 
+  async options() {
+    return loadCities().then(cities => {
+      return processCities(cities)
+    }).catch(error => {
+      logger.error(error);
+      return [];
+    });
+  }
+
   /**
-   * Process a zones JSON to an options list
-   * @param {*} zones 
+   * Generate a signal from a forecast day
+   * @param {Array<Day>} days
    */
-  async processZones(zones) {
-    logger.info("Processing zones JSON");
-    const options = [];
-    for (let feature of zones.features) {
-      if (feature.properties.type === 'public') {
-        const key = feature.properties.id;
-        let value = feature.properties.name;
-        if (feature.properties.state) {
-          value = value + ', ' + feature.properties.state;
-        }
-        options.push({
-          key: key,
-          value: value
-        });
+  generateSignal(days) {
+    days = days.slice(0, this.getWidth());
+
+    const messages = [
+      `Forecast for ${this.config.cityId_LABEL}`,
+    ];
+
+    for (let day of days) {
+      messages.push(moment(day.date).format('dddd, MMMM Do'));
+      for (let period of day.periods) {
+        messages.push(generatePeriodText(period, this.config.units));
       }
+      messages.push("\n");
     }
-    return options;
+
+    return new q.Signal({
+      points: [
+        days.map(day => {
+          return new q.Point({
+            color: chooseColor(choosePeriod(day)),
+          })
+        })
+      ],
+      name: `Weather forecast for ${moment(day.date).format('dddd')}`,
+      message: messages.join("\n"),
+    });
   }
 
   async run() {
     logger.info("Running.");
-    const zoneId = this.config.zoneId;
-    const zoneName = this.config.zoneId_LABEL || this.config.zoneId;
+    const forecastUrl = this.config.cityId;
+    const cityName = this.config.cityId_LABEL || this.config.cityId;
 
-    if (zoneId) {
-      logger.info("My zone ID is  : " + zoneId);
-      logger.info("My zone name is: " + zoneName);
+    if (forecastUrl) {
+      logger.info("My forecast URL is  : " + forecastUrl);
+      logger.info("My city name is: " + cityName);
 
-      return getForecast(zoneId).then(body => {
-        const periods = body.periods || [];
-        const updated = body.updated;
-        const width = this.geometry.width || 4;
-
-        logger.info("Forecast was updated on " + updated);
-        logger.info(`Forecast contains ${periods.length} periods.`);
-        logger.info("My width is: " + width);
-        const points = [];
-        const forecastPeriods = [];
-        if (periods.length > 0) {
-          logger.info("Got forecast: " + zoneId);
-          for (let i = 0; i < width; i += 1) {
-            // we skip every other one because we get a daily and nightly
-            // forecast for each day
-            if (periods.length > i * 2) {
-              const period = periods[i * 2];
-              forecastPeriods.push(period);
-              const observation = evaluateForecast(period.detailedForecast);
-              const forecastValue = observation.prioritize();
-              const color = COLORS[forecastValue];
-              points.push(new q.Point(color));
-            }
-          }
-
-          const signal = new q.Signal({
-            points: [points],
-            name: `${zoneName}`,
-            message: `Weather Forecast for ${zoneName}:\n` +
-              generateText(forecastPeriods)
-          });
-          logger.info('Sending signal: ' + JSON.stringify(signal));
-          return signal;
-        } else {
-          logger.info("No forecast for zone: " + zoneId);
-          return null;
-        }
-      }).catch((error) => {
-        logger.error("Error while getting forecast:", error);
-        return null;
-      })
+      return retrieveForecast(forecastUrl)
+        .then(body => {
+          return processForecast(body);
+        })
+        .then(days => {
+          return this.generateSignal(days);
+        })
     } else {
-      logger.info("No zoneId configured.");
+      logger.info("No cityId configured.");
       return null;
     }
   }
@@ -264,13 +310,20 @@ class WeatherForecast extends q.DesktopApp {
 
 
 module.exports = {
-  FORECASTS: FORECASTS,
-  Observation: Observation,
+  Colors: Colors,
+  Units: Units,
+
+  Day: Day,
+  Period: Period,
   WeatherForecast: WeatherForecast,
-  evaluateForecast: evaluateForecast,
-  generateServiceHeaders: generateServiceHeaders,
-  getForecast: getForecast,
-  generateText: generateText
+
+  chooseColor: chooseColor,
+  choosePeriod: choosePeriod,
+  generatePeriodText: generatePeriodText,
+  loadCities: loadCities,
+  processCities: processCities,
+  processForecast: processForecast,
+  retrieveForecast: retrieveForecast,
 }
 
 const applet = new WeatherForecast();
