@@ -4,26 +4,20 @@
   "version": "2.0.0",
   "description": "Display weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
-  "officialProductName": "Weather Forecast",
+  "officialProductName": "",
   "appUrl": "",
   "isSingleton": false,
   "videoUrl": "",
   "icon": "assets/q-weather.png",
   "image": "assets/q-weather-image.png",
-  "publisher": "Das Keyboard",
+  "publisherName": "Das Keyboard",
   "authorName": "Das Keyboard team",
   "authorUrl": "https://twitter.com/daskeyboard",
   "issuesUrl": "https://github.com/daskeyboard/q-applet-weather/issues",
-  "homePageUrl": "https://github.com/dasKeyboard/q-applet-weather",
+  "homepage": "https://github.com/dasKeyboard/q-applet-weather",
   "developerRepoUrl": "https://github.com/daskeyboard/q-applet-weather",
-  "license": "GPL",
   "licenseUrl": "http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
-  "changelogUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-forecast/blob/master/CHANGELOG.md",
-  "readMeUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-forecast/blob/master/README.md",
-  "readMeEndUserUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-forecast/blob/master/README_ENDUSER.md",
-  "engines": {
-    "das-keyboard-q": "3.1.x"
-  },
+  "changelogUrl": "",
   "qActionUrl": "",
   "main": "index.js",
   "scripts": {
@@ -40,47 +34,26 @@
       "height": 1,
       "defaults": {
         "origin": {
-          "x": 1,
+          "x": 0,
           "y": 1
         }
       }
     },
     "applet": {
       "defaults": {
-        "cityId": "http://www.yr.no/place/United_States/Texas/Austin/forecast.xml",
-        "cityId_LABEL": "Austin, Texas (United States)",
-        "units": "metric",
-        "units_LABEL": "Metric"
+        "zoneId": "TXZ211"
       }
     },
     "questions": [
       {
-        "key": "cityId",
-        "label": "Choose a city",
+        "key": "zoneId",
+        "label": "Choose a location",
         "help": "select a location from the list",
         "required": true,
         "order": 1,
         "controlType": "dropdown",
         "dynamic": true,
         "options": []
-      },
-      {
-        "key": "units",
-        "label": "Choose a unit type",
-        "help": "select a unit type",
-        "required": true,
-        "order": 2,
-        "controlType": "dropdown",
-        "options": [
-          {
-            "key": "metric",
-            "value": "Metric"
-          },
-          {
-            "key": "imperial",
-            "value": "Imperial"
-          }
-        ]
       }
     ],
     "requirements": {
