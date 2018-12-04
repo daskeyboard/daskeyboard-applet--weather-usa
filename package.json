@@ -21,8 +21,8 @@
   "changelogUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa/blob/master/CHANGELOG.md",
   "license": "MIT",
   "qActionUrl": "",
-  "readMeUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa/blob/master/README.md",
-  "readMeEndUserUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa/blob/master/README_ENDUSER.md",
+  "readMeUrl": "README.md",
+  "readMeEndUserUrl": "README_ENDUSER.md",
   "engines": {
     "das-keyboard-q": "3.1.x"
   },
