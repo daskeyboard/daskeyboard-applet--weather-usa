@@ -1,8 +1,8 @@
 # Q Applet: Weather - USA
 
-Displays the weather forecast on a Das Keyboard Q series.
+Displays the weather forecast for cities located in USA.
 
-[GitHub repository](https://github.com/daskeyboard/q-applet-weather)
+[GitHub repository](https://github.com/daskeyboard/daskeyboard-applet--weather-usa)
 
 ## Example
 
@@ -18,10 +18,10 @@ clear or sunny (yellow), cloudy (purple), rainy (blue), storm (red), snow (white
 
 ## Installation
 
-Requires a Das Keyboard Q Series: www.daskeyboard.com/5q
+Requires a Das Keyboard Q Series: www.daskeyboard.com
 
 Installation, configuration and uninstallation of applets is done within
-the Q Desktop application (https://www.daskeyboard.io/get-started/software/)
+the Q Desktop application (https://www.daskeyboard.com/q)
 
 ## Contributions
 
