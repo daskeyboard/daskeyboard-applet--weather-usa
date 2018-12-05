@@ -196,4 +196,28 @@ describe('WeatherForecast', function () {
     })
   });
 
+  it('#options(fieldId, search)', async function () {
+    return app.options('zoneId', 'New').then((options) => {
+      assert.ok(options);
+      assert(options.length > 0, 'Selections did not have an array of values.');
+      assert(options.length < 100, 'Search did not filter values');
+
+      assert.ok(options.filter(option => {
+        return option.value.includes('New York')
+      }));
+    })
+  });
+
+  it('#options(fieldId, search)', async function () {
+    return app.options('zoneId', 'new').then((options) => {
+      assert.ok(options);
+      assert(options.length > 0, 'Selections did not have an array of values.');
+      assert(options.length < 100, 'Search did not filter values');
+
+      assert.ok(options.filter(option => {
+        return option.value.includes('New York')
+      }));
+    })
+  });
+
 })
