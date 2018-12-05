@@ -31,7 +31,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "daskeyboard-applet": "^2.7.13",
+    "daskeyboard-applet": "^2.9.1",
     "fs": "^0.0.1-security"
   },
   "qConfig": {
