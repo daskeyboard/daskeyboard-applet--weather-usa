@@ -1,6 +1,6 @@
 # Q Applet: Weather - USA
 
-Displays the weather forecast for cities located in USA.
+Displays the weather forecast for cities located in the USA.
 
 [GitHub repository](https://github.com/daskeyboard/daskeyboard-applet--weather-usa)
 
