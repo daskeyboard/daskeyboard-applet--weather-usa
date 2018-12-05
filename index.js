@@ -1,4 +1,5 @@
 const q = require('daskeyboard-applet');
+const fs = require('fs');
 const request = require('request-promise');
 const logger = q.logger;
 const apiUrl = "https://api.weather.gov";
@@ -107,7 +108,7 @@ function evaluateForecast(forecastText) {
     snow: forecast.includes('snow'),
     storm: forecast.includes('storm'),
     sunny: forecast.includes('sunny'),
-    percent: (percentMatches && percentMatches.length > 1) ? 
+    percent: (percentMatches && percentMatches.length > 1) ?
       percentMatches[1] : '0'
   });
 }
@@ -160,19 +161,23 @@ class WeatherForecast extends q.DesktopApp {
     this.zoneName = null;
   }
 
-  async options() {
+  async options(fieldId, search) {
     if (zones) {
       logger.info("Sending preloaded zones");
-      return this.processZones(zones);
+      return this.processZones(zones, search);
+    } else if (fs.existsSync('./zones.json')) {
+      logger.info('Loading zones from a file.');
+      zones = require('./zones.json');
+      return this.processZones(zones, search);
     } else {
-      logger.info("Retrieving zones...");
+      logger.info("Retrieving zones via API...");
       return request.get({
         url: apiUrl + '/zones?type=forecast',
         headers: generateServiceHeaders(),
         json: true
       }).then(body => {
         zones = body;
-        return this.processZones(zones);
+        return this.processZones(zones, search);
       }).catch((error) => {
         logger.error("Caught error:", error);
       })
@@ -231,24 +236,34 @@ class WeatherForecast extends q.DesktopApp {
 
   /**
    * Process a zones JSON to an options list
-   * @param {*} zones 
+   * @param {*} zones
+   * @param {String} search 
    */
-  async processZones(zones) {
+  async processZones(zones, search) {
+    if (search != null) {
+      search = search.trim().toLowerCase();
+    }
+
     logger.info("Processing zones JSON");
     const options = [];
     for (let feature of zones.features) {
       if (feature.properties.type === 'public') {
         const key = feature.properties.id;
         let value = feature.properties.name;
-        if (feature.properties.state) {
-          value = value + ', ' + feature.properties.state;
+
+        if (!search || value.toLowerCase().includes(search)) {
+          if (feature.properties.state) {
+            value = value + ', ' + feature.properties.state;
+          }
+
+          options.push({
+            key: key,
+            value: value
+          });
         }
-        options.push({
-          key: key,
-          value: value
-        });
       }
     }
+
     return options;
   }
 

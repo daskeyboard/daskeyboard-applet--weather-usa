@@ -2,7 +2,7 @@
   "name": "daskeyboard-applet--weather-usa",
   "displayName": "Weather - USA",
   "publisher": "Das Keyboard",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "officialProductName": "Weather - USA",
   "description": "Display weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
@@ -31,7 +31,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "daskeyboard-applet": "^2.7.13"
+    "daskeyboard-applet": "^2.7.13",
+    "fs": "^0.0.1-security"
   },
   "qConfig": {
     "geometry": {
