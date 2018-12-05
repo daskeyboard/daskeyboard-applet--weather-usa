@@ -4,7 +4,7 @@
   "publisher": "Das Keyboard",
   "version": "1.0.7",
   "officialProductName": "Weather - USA",
-  "description": "Display weather forecast on a Das Keyboard Q",
+  "description": "Displays weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
   "appUrl": "",
   "isSingleton": false,
