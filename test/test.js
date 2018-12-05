@@ -46,12 +46,12 @@ describe('getForecast', function () {
   });
 })
 
-describe('generateServiceHeaders', function() {
+describe('generateServiceHeaders', function () {
   it('can generate a header object', function () {
     const test = t.generateServiceHeaders();
     assert.ok(test);
   });
-  it('generates unique service headers', function() {
+  it('generates unique service headers', function () {
     const test1 = t.generateServiceHeaders();
     const test2 = t.generateServiceHeaders();
     console.log("Service headers: " + JSON.stringify(test1));
@@ -64,16 +64,20 @@ describe('generateServiceHeaders', function() {
 describe('generateText', function () {
   it('can generate meaningful text', function () {
     const periods = [{
-        name: 'Rest of Today', detailedForecast: 'Sunny'
+        name: 'Rest of Today',
+        detailedForecast: 'Sunny'
       },
       {
-        name: 'Tuesday', detailedForecast: '10% chance of rain'
+        name: 'Tuesday',
+        detailedForecast: '10% chance of rain'
       },
       {
-        name: 'Wednesday', detailedForecast: '90% chance of showers'
+        name: 'Wednesday',
+        detailedForecast: '90% chance of showers'
       },
       {
-        name: 'Thursday', detailedForecast: 'Scattered clouds'
+        name: 'Thursday',
+        detailedForecast: 'Scattered clouds'
       },
     ]
     const text = t.generateText(periods);
@@ -82,9 +86,14 @@ describe('generateText', function () {
   });
 
   it('can handle line feeds', function () {
-    const periods = [
-      { name: 'Rest of Today', detailedForecast: "Lots\nof\nlines"},
-      { name: 'Tuesday', detailedForecast: "Even\nmore\n\n\nlines"}
+    const periods = [{
+        name: 'Rest of Today',
+        detailedForecast: "Lots\nof\nlines"
+      },
+      {
+        name: 'Tuesday',
+        detailedForecast: "Even\nmore\n\n\nlines"
+      }
     ];
     const text = t.generateText(periods);
     const lines = text.split("\n");
@@ -154,20 +163,37 @@ describe('WeatherForecast', function () {
   };
   app.zoneName = zoneName;
 
-  it('#run()', function () {
-    app.run().then((signal) => {
+  it('#run()', async function () {
+    return app.run().then((signal) => {
       console.log(JSON.stringify(signal));
-      assert.ok(signal);      
+      assert.ok(signal);
       assert(signal.message.includes(zoneName));
     });
   });
-  it('#options()', function () {
-    app.options('zoneId').then((options) => {
+
+  it('#options()', async function () {
+    return app.options('zoneId').then((options) => {
       assert.ok(options);
       assert(options.length > 1, 'Selections did not have an array of values.');
+      assert(options.length > 100, 'Selections did not have enough values.');
       const option = options[0];
       assert.ok(option.key);
       assert.ok(option.value);
     })
-  })
+  });
+
+  it('#options(fieldId, search)', async function () {
+    return app.options('zoneId', 'texas').then((options) => {
+      assert.ok(options);
+      assert(options.length > 1, 'Selections did not have an array of values.');
+      assert(options.length < 100, 'Search did not filter values');
+
+      for (let option of options) {
+        assert.ok(option.key);
+        assert.ok(option.value);
+        assert(option.value.toLowerCase().includes('texas'));
+      }
+    })
+  });
+
 })
