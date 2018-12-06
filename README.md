@@ -22,8 +22,11 @@ clear or sunny (yellow), cloudy (purple), rainy (blue), storm (red), snow (white
 
 Requires a Das Keyboard Q Series: www.daskeyboard.com
 
-Installation, configuration and uninstallation of applets is done within
-the Q Desktop application (https://www.daskeyboard.com/q)
+Installation, configuration and uninstallation of applets is done within the Q Desktop application (https://www.daskeyboard.com/q)
+
+## Running tests
+
+    yarn test
 
 ## Contributions
 
