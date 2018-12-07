@@ -12,7 +12,6 @@ clear or sunny (yellow), cloudy (purple), rainy (blue), storm (red), snow (white
 
 ![Weather Forecast on a Das Keybaord Q](assets/image_keys.png "Q Weather Forecast")
 ![Weather Forecast on a Das Keybaord Q](assets/image_legend.png "Q Weather Forecast")
-![Weather Forecast on a Das Keybaord Q](assets/image_message.png "Q Weather Forecast")
 
 ## Changelog
 
