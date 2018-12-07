@@ -2,9 +2,9 @@
   "name": "daskeyboard-applet--weather-usa",
   "displayName": "Weather - USA",
   "publisher": "Das Keyboard",
-  "version": "1.0.7",
+  "version": "1.0.6",
   "officialProductName": "Weather - USA",
-  "description": "Display weather forecast on a Das Keyboard Q",
+  "description": "Displays weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
   "appUrl": "",
   "isSingleton": false,
@@ -18,20 +18,19 @@
   "homePageUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa",
   "developerRepoUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa",
   "licenseUrl": "http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
-  "changelogUrl": "https://github.com/daskeyboard/daskeyboard-applet--weather-usa/blob/master/CHANGELOG.md",
+  "changelogUrl": "CHANGELOG.md",
   "license": "MIT",
-  "qActionUrl": "",
   "readMeUrl": "README.md",
   "readMeEndUserUrl": "README_ENDUSER.md",
   "engines": {
-    "das-keyboard-q": "3.1.x"
+    "das-keyboard-q": "3.0.0"
   },
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
-    "daskeyboard-applet": "^2.9.1",
+    "daskeyboard-applet": "^2.10.4",
     "fs": "^0.0.1-security"
   },
   "qConfig": {

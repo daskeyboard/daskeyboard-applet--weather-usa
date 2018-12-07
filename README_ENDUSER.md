@@ -1,6 +1,6 @@
 # Weather - USA
 
-Displays the weather forecast for cities located in USA.
+Displays a 4-day weather forecast for cities located in the USA.
 
 ![Weather Forecast on a Das Keybaord Q](assets/image_keys.png "Q Weather Forecast color legend")
 ![Weather Forecast on a Das Keybaord Q](assets/image_legend.png "Q Weather Forecast color legend")

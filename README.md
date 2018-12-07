@@ -1,6 +1,6 @@
 # Q Applet: Weather - USA
 
-Displays the weather forecast for cities located in USA.
+Displays a 4-day weather forecast for cities located in the USA.
 
 [GitHub repository](https://github.com/daskeyboard/daskeyboard-applet--weather-usa)
 
@@ -12,7 +12,6 @@ clear or sunny (yellow), cloudy (purple), rainy (blue), storm (red), snow (white
 
 ![Weather Forecast on a Das Keybaord Q](assets/image_keys.png "Q Weather Forecast")
 ![Weather Forecast on a Das Keybaord Q](assets/image_legend.png "Q Weather Forecast")
-![Weather Forecast on a Das Keybaord Q](assets/image_message.png "Q Weather Forecast")
 
 ## Changelog
 
@@ -22,8 +21,11 @@ clear or sunny (yellow), cloudy (purple), rainy (blue), storm (red), snow (white
 
 Requires a Das Keyboard Q Series: www.daskeyboard.com
 
-Installation, configuration and uninstallation of applets is done within
-the Q Desktop application (https://www.daskeyboard.com/q)
+Installation, configuration and uninstallation of applets is done within the Q Desktop application (https://www.daskeyboard.com/q)
+
+## Running tests
+
+- `yarn test`
 
 ## Contributions
 
