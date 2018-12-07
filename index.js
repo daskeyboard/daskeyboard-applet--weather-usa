@@ -90,7 +90,7 @@ class Observation {
 }
 
 Observation.LIKELY_THRESHOLD = 20;
-const percentChangeExpression = /(\d\d) percent chance/;
+const percentChanceExpression = /(\d+) percent/;
 
 
 /**
@@ -99,7 +99,7 @@ const percentChangeExpression = /(\d\d) percent chance/;
  */
 function evaluateForecast(forecastText) {
   const forecast = forecastText.toLowerCase();
-  const percentMatches = percentChangeExpression.exec(forecast);
+  const percentMatches = percentChanceExpression.exec(forecast);
 
   return new Observation({
     clear: forecast.includes('clear'),

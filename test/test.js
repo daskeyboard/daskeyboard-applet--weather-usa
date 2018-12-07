@@ -18,21 +18,34 @@ describe('evaluateForecast', function () {
     let result = t.evaluateForecast('Cloudy, with a high near 81.');
     assert.ok(result.cloudy, "Did not detect cloudy.");
     assert.ok(!result.snow, "False positive on snow.");
-    assert.ok(!result.storm, "False positive on snow.");
+    assert.ok(!result.storm, "False positive on storm.");
   });
   it('can evaluate sunny', function () {
     let result = t.evaluateForecast('Sunny, with a high near 81.');
     assert.ok(result.sunny, "Did not detect sunny.");
     assert.ok(!result.snow, "False positive on snow.");
-    assert.ok(!result.storm, "False positive on snow.");
+    assert.ok(!result.storm, "False positive on storm.");
   });
   it('can evaluate sunny', function () {
     let result = t.evaluateForecast('Clear, with a low around 57.');
     assert.ok(result.clear, "Did not detect clear.");
     assert.ok(!result.sunny, "False positive sunny.");
     assert.ok(!result.snow, "False positive on snow.");
-    assert.ok(!result.storm, "False positive on snow.");
+    assert.ok(!result.storm, "False positive on storm.");
   });
+  it('evaluates rain and percent chance', function () {
+    let result = t.evaluateForecast('Showers and isolated thunderstorms. ' +
+      'Locally heavy rainfall possible. Cooler. Lows in the upper 450s. ' +
+      'North winds 10 to 20 mph. Chance of rain near 100 percent.');
+
+    assert.ok(!result.clear, "False positive clear.");
+    assert.ok(!result.sunny, "False positive sunny.");
+    assert.ok(!result.snow, "False positive on snow.");
+    assert.ok(result.storm, "Did not detect storm.");
+    assert.ok(result.shower, "Did not detect shower.");
+    assert.ok(result.percent, "Did not detect percent.");
+    assert.ok(result.isLikely, "Did not detect likeliness");
+  })
 });
 
 describe('getForecast', function () {
