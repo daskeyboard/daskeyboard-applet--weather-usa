@@ -153,71 +153,84 @@ describe('Observation', function () {
 });
 
 describe('WeatherForecast', function () {
+  it('#run()', async function () {
+    return buildApp().then(app => {
+      app.run().then((signal) => {
+        console.log(JSON.stringify(signal));
+        assert.ok(signal);
+        assert(signal.message.includes(zoneName));
+      });
+    })
+  });
+
+  it('#options()', async function () {
+    return buildApp().then(app => {
+      app.options('zoneId').then((options) => {
+        assert.ok(options);
+        assert(options.length > 1, 'Selections did not have an array of values.');
+        assert(options.length > 100, 'Selections did not have enough values.');
+        const option = options[0];
+        assert.ok(option.key);
+        assert.ok(option.value);
+      })
+    })
+  });
+
+  it('#options(fieldId, search)', async function () {
+    return buildApp().then(app => {
+      app.options('zoneId', 'texas').then((options) => {
+        assert.ok(options);
+        assert(options.length > 1, 'Selections did not have an array of values.');
+        assert(options.length < 100, 'Search did not filter values');
+
+        for (let option of options) {
+          assert.ok(option.key);
+          assert.ok(option.value);
+          assert(option.value.toLowerCase().includes('texas'));
+        }
+      })
+    })
+  });
+
+  it('#options(fieldId, search)', async function () {
+    return buildApp().then(app => {
+      app.options('zoneId', 'New').then((options) => {
+        assert.ok(options);
+        assert(options.length > 0, 'Selections did not have an array of values.');
+        assert(options.length < 100, 'Search did not filter values');
+
+        assert.ok(options.filter(option => {
+          return option.value.includes('New York')
+        }));
+      })
+    })
+  });
+
+  it('#options(fieldId, search)', async function () {
+    return buildApp().then(app => {
+      app.options('zoneId', 'new').then((options) => {
+        assert.ok(options);
+        assert(options.length > 0, 'Selections did not have an array of values.');
+        assert(options.length < 100, 'Search did not filter values');
+
+        assert.ok(options.filter(option => {
+          return option.value.includes('New York')
+        }));
+      })
+    })
+  });
+})
+
+async function buildApp() {
   let app = new t.WeatherForecast();
   app.config = {
     zoneId: zoneId,
+    zoneId_LABEL: zoneName,
     geometry: {
       width: 4,
       height: 1,
     }
   };
-  app.zoneName = zoneName;
 
-  it('#run()', async function () {
-    return app.run().then((signal) => {
-      console.log(JSON.stringify(signal));
-      assert.ok(signal);
-      assert(signal.message.includes(zoneName));
-    });
-  });
-
-  it('#options()', async function () {
-    return app.options('zoneId').then((options) => {
-      assert.ok(options);
-      assert(options.length > 1, 'Selections did not have an array of values.');
-      assert(options.length > 100, 'Selections did not have enough values.');
-      const option = options[0];
-      assert.ok(option.key);
-      assert.ok(option.value);
-    })
-  });
-
-  it('#options(fieldId, search)', async function () {
-    return app.options('zoneId', 'texas').then((options) => {
-      assert.ok(options);
-      assert(options.length > 1, 'Selections did not have an array of values.');
-      assert(options.length < 100, 'Search did not filter values');
-
-      for (let option of options) {
-        assert.ok(option.key);
-        assert.ok(option.value);
-        assert(option.value.toLowerCase().includes('texas'));
-      }
-    })
-  });
-
-  it('#options(fieldId, search)', async function () {
-    return app.options('zoneId', 'New').then((options) => {
-      assert.ok(options);
-      assert(options.length > 0, 'Selections did not have an array of values.');
-      assert(options.length < 100, 'Search did not filter values');
-
-      assert.ok(options.filter(option => {
-        return option.value.includes('New York')
-      }));
-    })
-  });
-
-  it('#options(fieldId, search)', async function () {
-    return app.options('zoneId', 'new').then((options) => {
-      assert.ok(options);
-      assert(options.length > 0, 'Selections did not have an array of values.');
-      assert(options.length < 100, 'Search did not filter values');
-
-      assert.ok(options.filter(option => {
-        return option.value.includes('New York')
-      }));
-    })
-  });
-
-})
+  return app;
+}

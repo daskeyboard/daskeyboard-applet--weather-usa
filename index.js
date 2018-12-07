@@ -185,10 +185,14 @@ class WeatherForecast extends q.DesktopApp {
   }
 
 
-  async applyConfig() {}
+  async applyConfig() {
+    this.zoneName = this.config.zoneId_LABEL;
+  }
 
   async getZoneName() {
-    if (this.zoneName) {
+    if (this.config.zoneId_LABEL) {
+      return this.config.zoneId_LABEL;
+    } else if (this.zoneName) {
       return this.zoneName;
     } else {
       // we save the zoneId's corresponding zone name to persistent storage so
