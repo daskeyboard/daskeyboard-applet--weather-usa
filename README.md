@@ -25,7 +25,7 @@ Installation, configuration and uninstallation of applets is done within the Q D
 
 ## Running tests
 
-    yarn test
+- `yarn test`
 
 ## Contributions
 
