@@ -147,7 +147,8 @@ function generateText(periods) {
     let text = periods[i].detailedForecast.trim();
     text = text.replace(/\n/g, " ");
     text = text.replace(/\s+/g, ' ');
-    forecasts.push(periods[i].name + ": " + text);
+    text = `<div>${text}</div>`;
+    forecasts.push(`<em>${periods[i].name}:</em> ${text}`);
   }
 
   return forecasts.join("\n");
@@ -325,7 +326,7 @@ class WeatherForecast extends q.DesktopApp {
           const signal = new q.Signal({
             points: [points],
             name: `${zoneName}`,
-            message: `Weather Forecast for ${zoneName}:\n` +
+            message: `<div><b>Weather Forecast for ${zoneName}:</b></div>` +
               generateText(forecastPeriods)
           });
           logger.info('Sending signal: ' + JSON.stringify(signal));
