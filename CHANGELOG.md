@@ -9,3 +9,4 @@ First release
 New images and new titles added (weather-forecast become weather-usa).
 README and Package.json updated.
 Search issue fixed.
+Link to the API added in the popup message.
