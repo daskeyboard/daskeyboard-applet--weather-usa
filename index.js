@@ -320,10 +320,6 @@ class WeatherForecast extends q.DesktopApp {
 
           const signal = new q.Signal({
             points: [points],
-            link: {
-              url: 'https://api.weather.gov/zones/ZFP/'+`${zoneId}`+'/forecast',
-              label: 'Show in the API',
-            },
             name: `${zoneName}`,
             message: `Weather Forecast for ${zoneName}:\n` +
               generateText(forecastPeriods)
