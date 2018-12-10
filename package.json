@@ -1,16 +1,16 @@
 {
   "name": "daskeyboard-applet--weather-usa",
   "displayName": "Weather - USA",
-  "publisher": "Das Keyboard",
-  "version": "1.0.6",
-  "officialProductName": "Weather - USA",
   "description": "Displays weather forecast on a Das Keyboard Q",
   "longDescription": "Be aware of the upcoming storm, ice age or heat wave coming to your place with the Q Weather applet.",
+  "version": "1.0.6",
+  "publisher": "Das Keyboard",
+  "officialProductName": "Weather - USA",
   "appUrl": "",
   "isSingleton": false,
   "videoUrl": "",
   "icon": "assets/icon.png",
-  "image": "assets/q-weather-image.png",
+  "image": "assets/image-missing.png",
   "publisherName": "Das Keyboard",
   "authorName": "Das Keyboard",
   "authorUrl": "https://twitter.com/daskeyboard",
@@ -44,14 +44,10 @@
         }
       }
     },
-    "applet": {
-      "defaults": {
-        "zoneId": "TXZ211"
-      }
-    },
     "questions": [
       {
         "key": "zoneId",
+        "value":"TXZ211",
         "label": "Choose a location",
         "help": "select a location from the list",
         "required": true,
