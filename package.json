@@ -47,7 +47,7 @@
     "questions": [
       {
         "key": "zoneId",
-        "value":"TXZ211",
+        "value": "TXZ211",
         "label": "Choose a location",
         "help": "select a location from the list",
         "required": true,
