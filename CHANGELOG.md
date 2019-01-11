@@ -9,3 +9,7 @@ First release
 New images and new titles added (weather-forecast become weather-usa).
 README and Package.json updated.
 Search issue fixed.
+
+## Version 1.0.7 - January 11, 2019
+
+Priority sunny on showers and rain removed.

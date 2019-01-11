@@ -57,7 +57,7 @@ class Observation {
   }
 
   isShower() {
-    return this.shower && this.isLikely();
+    return this.shower;
   }
 
   isSnow() {
@@ -104,7 +104,7 @@ function evaluateForecast(forecastText) {
   return new Observation({
     clear: forecast.includes('clear'),
     cloudy: forecast.includes('cloudy'),
-    shower: forecast.includes('shower'),
+    shower: ( forecast.includes('showers') || forecast.includes('rain') ),
     snow: forecast.includes('snow'),
     storm: forecast.includes('storm'),
     sunny: forecast.includes('sunny'),

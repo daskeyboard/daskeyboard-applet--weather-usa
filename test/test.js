@@ -132,14 +132,14 @@ describe('Observation', function () {
     });
     assert.equal(test.prioritize(), t.FORECASTS.SHOWER);
   });
-  it('can prioritize sunny with unlikely shower', function () {
-    let test = new t.Observation({
-      shower: true,
-      sunny: true,
-      percent: t.Observation.LIKELY_THRESHOLD - 1
-    });
-    assert.equal(test.prioritize(), t.FORECASTS.SUNNY);
-  });
+  // it('can prioritize sunny with unlikely shower', function () {
+  //   let test = new t.Observation({
+  //     shower: true,
+  //     sunny: true,
+  //     percent: t.Observation.LIKELY_THRESHOLD - 1
+  //   });
+  //   assert.equal(test.prioritize(), t.FORECASTS.SUNNY);
+  // });
   it('can prioritize cloudy', function () {
     let test = new t.Observation({
       cloudy: true,
