@@ -33,7 +33,7 @@ Pull requests welcome.
 
 ## Copyright / License
 
-Copyright 2014 - 2018 Das Keyboard / Metadot Corp.
+Copyright 2014 - 2019 Das Keyboard / Metadot Corp.
 
 Licensed under the GNU General Public License Version 2.0 (or later);
 you may not use this work except in compliance with the License.
