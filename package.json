@@ -47,13 +47,13 @@
     "questions": [
       {
         "key": "zoneId",
-        "value": "TXZ211",
         "label": "Choose a location",
         "help": "select a location from the list",
         "required": true,
         "order": 1,
-        "controlType": "dropdown",
-        "dynamic": true,
+        "value": "TXZ211",
+        "valueLabel": "Austin, TX",
+        "controlType": "search",
         "options": []
       }
     ],
