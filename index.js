@@ -161,7 +161,7 @@ class WeatherForecast extends q.DesktopApp {
     super();
     this.zoneName = null;
     // run every 30 min
-    this.pollingInterval = 1 * 60 * 1000;
+    this.pollingInterval = 30 * 60 * 1000;
   }
 
   async options(fieldId, search) {
