@@ -136,8 +136,8 @@ async function getForecast(zoneId) {
       throw new Error("No periods returned.");
     }
   }).catch((error) => {
-    logger.error("Caught error:", error);
-    return null;
+    logger.error(`Error when trying to getForecast: ${error}`);
+    throw new Error(`Error when trying to getForecast: ${error}`);
   })
 }
 
@@ -161,7 +161,7 @@ class WeatherForecast extends q.DesktopApp {
     super();
     this.zoneName = null;
     // run every 30 min
-    this.pollingInterval = 30 * 60 * 1000;
+    this.pollingInterval = 1 * 60 * 1000;
   }
 
   async options(fieldId, search) {
@@ -292,7 +292,7 @@ class WeatherForecast extends q.DesktopApp {
   }
 
   async run() {
-    logger.info("Running.");
+    logger.info("Weather USA running.");
     const zoneId = this.config.zoneId;
     const zoneName = await this.getZoneName();
 
@@ -338,8 +338,13 @@ class WeatherForecast extends q.DesktopApp {
           return null;
         }
       }).catch((error) => {
-        logger.error("Error while getting forecast:", error);
-        return null;
+        logger.error(`Error while getting forecast data: ${error}`);
+          if(`${error.message}`.includes("getaddrinfo")){
+            return q.Signal.error(
+              'The Weather forecast USA service returned an error. <b>Please check your internet connection</b>.'
+            );
+          }
+          return q.Signal.error([`The Weather forecast USA service returned an error. Detail: ${error}`]);
       })
     } else {
       logger.info("No zoneId configured.");
