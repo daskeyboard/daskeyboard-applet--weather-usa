@@ -1,5 +1,9 @@
 # Changelog Q Applet Weather USA
 
+## Version 1.0.9 - May 07, 2019
+
+Changed search controltype.
+
 ## Version 1.0.8 - April 30, 2019
 
 Handled internet connection error.
