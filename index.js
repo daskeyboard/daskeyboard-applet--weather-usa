@@ -347,11 +347,13 @@ class WeatherForecast extends q.DesktopApp {
       }).catch((error) => {
         logger.error(`Error while getting forecast data: ${error}`);
           if(`${error.message}`.includes("getaddrinfo")){
-            return q.Signal.error(
-              'The Weather forecast USA service returned an error. <b>Please check your internet connection</b>.'
-            );
+            // Commented in order to do not send this kind of notification. Boring to close the signal.
+            // return q.Signal.error(
+            //   'The Weather forecast USA service returned an error. <b>Please check your internet connection</b>.'
+            // );
+          }else{
+            return q.Signal.error([`The Weather forecast USA service returned an error. Detail: ${error}`]);
           }
-          return q.Signal.error([`The Weather forecast USA service returned an error. Detail: ${error}`]);
       })
     } else {
       logger.info("No zoneId configured.");
