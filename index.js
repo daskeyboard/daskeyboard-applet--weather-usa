@@ -154,6 +154,13 @@ function generateText(periods) {
   return forecasts.join("\n");
 }
 
+// Used for sorting search results when searching through zones.
+// The state will be placed first in the value used for sorting.
+// This will make it easier to find results for a specific state.
+function getSortValue(zone) {
+  var stateZone = zone.toUpperCase().split(", ") // ignore upper and lowercase
+  return stateZone.reverse().join(" ")
+}
 
 
 class WeatherForecast extends q.DesktopApp {
@@ -271,10 +278,10 @@ class WeatherForecast extends q.DesktopApp {
       }
     }
 
-    //We sort by alphabetical order
+    // We sort by alphabetical order first by state and then the region/city
     let optionsSorted = options.sort(function (a, b) {
-      var nameA = a.value.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.value.toUpperCase(); // ignore upper and lowercase
+      var nameA = getSortValue(a.value)
+      var nameB = getSortValue(b.value)
       if (nameA < nameB) {
         return -1;
       }
