@@ -1,5 +1,10 @@
 # Changelog Q Applet Weather USA
 
+## Version 1.0.10 - May 10, 2019
+
+In the configuration, get the cities sorted by state.
+Removed internet connection error signal.
+
 ## Version 1.0.9 - May 07, 2019
 
 Changed search controltype.
