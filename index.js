@@ -129,7 +129,7 @@ async function getForecast(zoneId) {
     headers: generateServiceHeaders(),
     json: true
   }).then(body => {
-    const periods = body.periods;
+    const periods = body.properties.periods;
     if (periods) {
       return body;
     } else {
@@ -308,8 +308,8 @@ class WeatherForecast extends q.DesktopApp {
       logger.info("My zone name is: " + zoneName);
 
       return getForecast(zoneId).then(body => {
-        const periods = body.periods || [];
-        const updated = body.updated;
+        const periods = body.properties.periods || [];
+        const updated = body.properties.updated;
         const width = this.geometry.width || 4;
 
         logger.info("Forecast was updated on " + updated);
