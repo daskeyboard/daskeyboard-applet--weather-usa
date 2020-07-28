@@ -1,5 +1,9 @@
 # Changelog Q Applet Weather USA
 
+## Version 1.0.11 - July 28, 2020
+
+Updated processing of zones json. Was broken in previous version due to service changes.
+
 ## Version 1.0.10 - May 10, 2019
 
 In the configuration, get the cities sorted by state.
