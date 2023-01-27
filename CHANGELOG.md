@@ -1,5 +1,9 @@
 # Changelog Q Applet Weather USA
 
+## Version 1.0.12 - Jan 27, 2023
+
+Updated processing of zones json.
+
 ## Version 1.0.11 - July 28, 2020
 
 Updated processing of zones json. Was broken in previous version due to service changes.
